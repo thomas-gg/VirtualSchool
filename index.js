@@ -131,20 +131,12 @@ app.post('/fileUpload', function (req, res){
       var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
         if (err) throw err;
-      });
-    });
-
-    form.on('fileBegin', function (name, file){
-
-        //file.path = __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + file.name;
         fileName = file.name;
-        fileName = fileName.substring(0, fileName.indexOf("."))
-        /*fs.writeFile(__dirname + "/captionsFolder/" + location + "_" + fileName + ".txt", caption, function(err, data) {
-          if (err) console.log(err);
-        }); */
+        fileName = fileName.substring(0, fileName.indexOf("."));
         fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + fileName + ".txt", caption, function(err, data) {
           if (err) console.log(err);
         });
+      });
     });
 
     form.on('file', function (name, file){
