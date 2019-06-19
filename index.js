@@ -131,11 +131,9 @@ app.post('/fileUpload', function (req, res){
       var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
         if (err) throw err;
-        fileName = files.name;
-        fileName = fileName.substring(0, fileName.indexOf("."));
-        fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + fileName + ".txt", caption, function(err, data) {
-          if (err) console.log(err);
-        });
+        fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
+              if (err) console.log(err);
+          });
       });
     });
 
