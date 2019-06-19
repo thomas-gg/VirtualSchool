@@ -1,0 +1,15 @@
+{
+  "name": "randomnum",
+  "version": "1.0.0",
+  "description": "generates a random number from 1 to 10.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Austin LaChance",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.16.4",
+    "seedrandom": "^2.4.4"
+  }
+}

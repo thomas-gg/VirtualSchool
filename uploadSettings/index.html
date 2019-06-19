@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  </head>
+  <body>
+    <form action="fileupload" method="post" enctype="multipart/form-data">
+      <input type="file" name="filetoupload">
+      <br>
+
+      <label for = "location"> Location </label>
+      <select id = "location">
+        <option value = "901"> Room 901 </option>
+        <option value = "902"> Room 902 </option>
+        <option value = "903"> Room 903 </option>
+        <option value = "904"> Room 904 </option>
+        <option value = "Gym"> Gym </option>
+      </select>
+      <br><br>
+
+      <label for = "caption"> Caption </label>
+      <br>
+      <textarea id = "caption" rows="5" cols="50"></textarea>
+      <br><br>
+
+      <input type = "submit" id = "submit"> 
+
+    </form>
+    <br>
+    <input type = "button" id = "logout" value = "Logout">
+    <br>
+    <script>
+    	$(document).ready(function(){
+    		$("#submit").click(submitClicked);
+        $("#logout").click(logoutClicked);
+      });
+      function stringIncludes(str) {
+        let badChars = ['<','>'];
+        for (i=0;i<badChars.length;i++)
+        {
+          if (str.includes(badChars[i]))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+      function submitClicked(){
+        if(stringIncludes($('#caption').val())){
+          alert("you can't use the symbols < or > in the caption");
+          return false; //doesn't send file because string includes <>&\\
+        }
+        alert("This will be reviewed by an Administer before it is posted");
+        $.ajax({
+          url: "/setLocation",
+          type: "POST",
+          data: {location:$('#location').val()},
+          success: function(data){},
+          dataType: "json"
+        });
+        $.ajax({
+          url: "/setCaption",
+          type: "POST",
+          data: {caption:$('#caption').val(), date:new Date()},
+          success: function(data){},
+          dataType: "json"
+        });
+      }
+      function logoutClicked(){
+        $.get("/logout",function(data){
+         window.location = data.redirect;
+        });
+        return false;             
+      }
+    </script>
+
+  </body>
+</html>

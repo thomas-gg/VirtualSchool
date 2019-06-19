@@ -1,0 +1,214 @@
+var express = require("express");
+var bodyParser = require('body-parser');
+var app = express();
+var fs = require('fs');
+var path = require("path");
+var formidable = require('formidable');
+var mv = require("mv");
+app.use(express.static(__dirname + "/"));
+app.use(express.static(__dirname + "/uploadSettings/approval/mediaPreApproval")); //added
+app.use(express.static(__dirname + "/uploadSettings/approval/mediaPostApproval")); //added
+//app.use(express.static(__dirname + "/uploadSettings/imagesFolder"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); //you need these for some reasons
+
+/////////////////////////////////////////////////////////////// index.js of studentExercise2019TestStart
+
+var setUpPassport = require("./setuppassport");
+var routes = require("./routes");
+var routesData = require("./routesData");    //added
+
+app.set("port", process.env.PORT || 3006);
+app.use('/', express.static(__dirname + './'));
+app.use('/js', express.static(__dirname + './public/js'));
+app.use(express.static(path.join(__dirname, "public")));
+var cookieParser = require("cookie-parser");
+var flash = require("connect-flash");
+var mongoose = require("mongoose");
+var passport = require("passport");
+var session = require("express-session");
+app.use(cookieParser());
+mongoose.connect("mongodb://brad123:brad123@cluster0-shard-00-00-gzlxs.mongodb.net:27017,cluster0-shard-00-01-gzlxs.mongodb.net:27017,cluster0-shard-00-02-gzlxs.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true");   //27017 seems to be the port number used by mongod
+setUpPassport();
+
+app.use(session({
+  secret: "LUp$Dg?,I#i&owP3=9su+OB%`JgL4muLF5YJ~{;t",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(routes);
+app.use(routesData);
+////////////////////////////////////////////////////////////
+app.post('/setLocationURL', function (req, res){
+  var error = false;
+  var URLL = JSON.stringify(req.body.URLL);
+  if(!(URLL.includes(".com")||URLL.includes(".org")||URLL.includes(".edu")||URLL.includes(".gov")||URLL.includes(".net")||URLL.includes(".biz")||URLL.includes(".info"))){
+    error = true;
+  }
+  fs.writeFile(__dirname + "/uploadSettings/approval/mediaPostApproval/" + req.body.location + "_URL" + ".txt", req.body.URLL, function(err, data) {
+          if (err) console.log(err);
+        });
+  res.json({error:error});
+});
+///////////////////////////////////////////////////////////
+
+let xpos = 0;
+let ypos = 0;
+let zpos = 0;
+let valid = 0;
+
+function getDirectories(srcpath) {
+  return fs.readdirSync(srcpath).filter(function(file) {
+    path.resolve(__dirname, file);
+    return fs.statSync(path.join(srcpath, file)).isDirectory();
+  });
+};
+function getFiles(srcpath) {
+  return fs.readdirSync(srcpath).filter(function(file) {
+    path.resolve(__dirname, file);
+    return fs.statSync(path.join(srcpath, file)).isFile();
+  });
+};
+//req is info sending to server from client.
+//res is info sending to client from server.
+app.get("/",function(req,res) {
+	res.sendFile(path.resolve(__dirname,"index.html"));
+});
+
+app.get("/getAllDisplayPost",function(req,res) {
+
+	console.log("does a get on files with dirname " + __dirname + "/uploadSettings/approval/mediaPostApproval");
+  	var files = getFiles(__dirname+ "/uploadSettings/approval/mediaPostApproval");
+  	var holderStr = "";
+
+  	for (var i = files.length - 1; i >= 0; i--) {
+  		holderStr += files[i].substr(files[i].indexOf('.'))+ " ";
+  	}
+
+  	console.log("these files are: " + files[0])
+	res.json({files:files}); //needs to match public var unity create fromjson
+});
+
+app.post('/location', function(req, res){
+	console.log("do a location");
+	console.log("req.body.xpos = " + req.body.xpos);
+	console.log("req.body.ypos = " + req.body.ypos);
+	console.log("req.body.zpos = " + req.body.zpos);
+
+	valid = 1;
+	xpos = req.body.xpos;
+	ypos = req.body.ypos;
+	zpos = req.body.zpos;
+	res.json({valid:valid,xpos:xpos,ypos:ypos,zpos:zpos});
+});
+////////////
+/*
+app.get('/newFile', function (req, res){
+    res.sendFile(__dirname + '/uploadSettings/index.html');
+});
+*/
+app.get('/admin', function (req, res){
+    res.sendFile(__dirname + '/uploadSettings/approval/index.html');
+});
+
+var fileName;
+var location;
+app.post('/setLocation', function (req, res){
+  location = req.body.location
+  res.sendFile(__dirname + '/uploadSettings/index.html');
+});
+
+app.post('/fileUpload', function (req, res){
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files){
+      var oldPath = files.filetoupload.path;
+      var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
+      mv(oldPath, newPath, function (err) {
+        if (err) throw err;
+      });
+    });
+
+    form.on('fileBegin', function (name, file){
+
+        //file.path = __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + file.name;
+        fileName = file.name;
+        fileName = fileName.substring(0, fileName.indexOf("."))
+        /*fs.writeFile(__dirname + "/captionsFolder/" + location + "_" + fileName + ".txt", caption, function(err, data) {
+          if (err) console.log(err);
+        }); */
+        fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + fileName + ".txt", caption, function(err, data) {
+          if (err) console.log(err);
+        });
+    });
+
+    form.on('file', function (name, file){
+        console.log('Uploaded ' + file.name);
+    });
+
+    res.sendFile(__dirname + '/uploadSettings/index.html');
+});
+
+var caption;
+var date;
+app.post('/setCaption', function (req, res){
+  console.log(req.body.date);
+  caption = req.body.date + " " + req.body.caption;
+  res.sendFile(__dirname + '/uploadSettings/index.html');
+});
+////////////
+////////////////////////////////////
+app.get("/getAllDisplayPre",function(req,res) {
+  console.log("does a get on files with dirname " + __dirname + "/uploadSettings/approval/mediaPreApproval/");
+    var files = getFiles(__dirname + "/uploadSettings/approval/mediaPreApproval/");
+  res.json({files:files}); //needs to match public var unity create fromjson
+});
+app.post("/deleteFile",function(req,res) {
+  fs.unlink(__dirname + "/uploadSettings/approval/mediaPreApproval/" + req.body.textFile, function (err) {
+    if (err) throw err;
+    // if no error, file has been deleted successfully
+    console.log('File deleted!');
+  });
+  fs.unlink(__dirname + "/uploadSettings/approval/mediaPreApproval/" + req.body.mediaFile, function (err) {
+    if (err) throw err;
+    // if no error, file has been deleted successfully
+    console.log('File deleted!');
+  });
+});
+app.post("/moveApproveToFolder",function(req,res) {
+  var files = getFiles(__dirname + "/uploadSettings/approval/mediaPreApproval/");
+  var matchedFile = [];
+
+  let counter = 0;
+  for(let i=0;i<files.length;i++) {
+    if(files[i] == req.body.textFile) {
+      console.log("text file : " + files[i]);
+      matchedFile[counter] = files[i];
+      counter++;
+    }
+    else if (files[i] == req.body.mediaFile) {
+      console.log("mediaFile : " + files[i]);
+      matchedFile[counter] = files[i];
+      counter++;
+    }
+  }
+  for(let i=0;i<matchedFile.length;i++) {
+    var fromPath = path.join(__dirname + "/uploadSettings/approval/mediaPreApproval/" , matchedFile[i]);
+    var toPath = path.join(__dirname + "/uploadSettings/approval/mediaPostApproval/", matchedFile[i]);
+
+    fs.rename(fromPath, toPath, function (error) {
+      if (error) {
+        console.error("File moving error.", error);
+      } else {
+        console.log("Moved file '%s' to '%s'.", fromPath, toPath);
+      }
+    });
+  }
+});
+////////////////////////////////////
+app.listen(3006);

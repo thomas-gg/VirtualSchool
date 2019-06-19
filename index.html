@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | clientServer</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Web.json", {onProgress: UnityProgress});
+    </script>
+  </head>
+  <body>
+        <div class="webgl-content">
+          <h1>Welcome To Mission Vista High</h1>
+          <hr>
+          <div id="gameContainer" style="width: 900px; height: 600px"></div>
+          <hr>
+          <a href="http://173.255.210.209:3006/login">Upload File</a>
+        </div>
+
+   </body>
+</html>

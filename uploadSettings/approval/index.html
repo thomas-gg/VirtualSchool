@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!--   -->
+<html>
+  <head>
+    <title>Ajax</title>
+    <meta charset="utf-8"/>
+    <style type="text/css">
+
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  </head>
+
+  <body>
+    <h3>Upload URL</h3>
+        <label for = "location"> Location </label>
+      <select id = "location">
+        <option value = "901"> Room 901 </option>
+        <option value = "902"> Room 902 </option>
+        <option value = "903"> Room 903 </option>
+        <option value = "904"> Room 904 </option>
+        <option value = "Gym"> Gym </option>
+      </select>
+    <br><br>
+    <label>Upload URL to Classroom (Make sure it says https://... or http://...) </label> <input type = "text" id = "URL">
+    <input type = "button" id = "uploadURL" value = "upload URL">
+
+
+        <hr>
+    <h3>Accept/Reject Pictures</h3>
+    <table id = "Submissions" border = "3">
+        <thead>
+              <tr>
+                <th>Media</th>
+                <th>Caption</th>
+                <th>Text File Name</th>
+                <th>Media File Name</th>
+                <th>Location</th>
+                <th>Date Uploaded</th>
+                <th>Approve</th>
+                <th>Reject</th>
+              </tr>
+          </thead>
+    </table>
+    <br>
+    <input id = "approveID" type="submit" value = "Submit">
+    <br>
+    <br>
+    <hr>
+    <label for="names">Delete User: </label>
+      <select id="names" name="names">
+      </select>  
+      <input type = "button" id = "deleteButton" value = "Delete">
+    <hr>
+    <br>
+    <input type = "button" id = "logout" value = "Logout">
+
+  </body>
+  <script type = "text/javascript">
+    $(document).ready(function() {
+      $("#uploadURL").click(uploadClicked);
+      $("#deleteButton").click(deleteClicked);
+      $("#logout").click(logoutClicked);
+        $.ajax({
+            url : "/getAllDisplayPre",
+            type: "GET",
+            success : function (data) {
+                for(var i = 0 ; i < data.files.length ; i++) {
+                  if(data.files[i].includes("txt")) {
+                    for(var w = 0 ; w < data.files.length ; w++) {
+                      if(!data.files[w].includes("txt") && data.files[i].includes(data.files[w].substring(0,data.files[w].indexOf("."))))
+                      captionToText(data.files[i],data.files[w],data.files[i],data.files[w]);
+                    }
+                  }
+                }
+            }
+        });
+        $.get("/adminInfo",function(data){
+        if (data.username) {
+          console.log("in adminInfo");
+          $("#session").text("Admin Session " + data.username + " " + data.ident);
+          identList = [];
+    //console.log(data.userList);
+            for (let i=0;i<data.userList.length;i++) {
+              console.log(data.userList[i].name);
+              identList.push({ident:data.userList[i].ident});
+              $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
+            }
+        }
+      });
+    });
+
+    function captionToText(urltext,urlmedia,txtfile,mediafile){
+      $.ajax({
+            url : urltext,
+            dataType: "text",
+            success : function (data) {
+              if(urlmedia.includes("jpg") || urlmedia.includes("JPG") ||urlmedia.includes("png") || urlmedia.includes("gif")) {
+                $("#Submissions").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td>,<td><input type = 'checkbox' name='approvalcheck' /></td>,<td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
+              }
+              else if(urlmedia.includes("MP4") || urlmedia.includes("mp4")){
+                $("#Submissions").append("<tr>,<td><video width='150' height = '150' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td>,<td><input type = 'checkbox' name='approvalcheck' /></td>,<td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
+              }
+
+            }
+        });
+    }
+
+    $("#approveID").click(function(){
+      var values = [];
+      $.each($("input[name='approvalcheck']:checked"), function () {
+        var data = $(this).parents('tr:eq(0)');
+        $.ajax({
+            url : "/moveApproveToFolder",
+            type: "POST",
+            data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
+            success : function (data) {
+                console.log("values array succesfully sent");
+            }
+        });
+        $(data).remove();
+      });
+      $.each($("input[name='rejectcheck']:checked"), function () {
+        var data = $(this).parents('tr:eq(0)');
+        $.ajax({
+            url : "/deleteFile",
+            type: "POST",
+            data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
+            success : function (data) {
+                console.log("values array succesfully sent");
+            }
+        });
+        $(data).remove();
+      });
+    });
+
+    //////////////////////////////////////////////
+    function deleteClicked(){
+        var nameIDNum = -1;
+        $.get("/adminInfo",function(data){
+            if (data.username) {
+              console.log("in adminInfo");
+              
+              //console.log(data.userList);
+                  for (let i=0;i<data.userList.length;i++) {
+                    if(data.userList[i].name == $("#names").val()){
+                      nameIDNum = data.userList[i].ident;
+                      console.log("this was called " + nameIDNum); //gets id of name thing
+                    }
+                  }
+                  $.ajax({
+                    url: "/deleteUser/" + Number(nameIDNum),
+                    type: "DELETE",
+                    success: function(data) { 
+                      if (!data)
+                        alert("bad delete");
+                      else
+                        alert("good delete");
+                    } ,   
+                    dataType: "json"
+                  });
+                  adminifnn();
+                  return false;    
+                } 
+            });         
+      }      
+      
+function adminifnn(){
+  $('#names').empty();
+  $.get("/adminInfo",function(data){
+    if (data.username) {
+      console.log("in adminInfo");
+      $("#session").text("Admin Session " + data.username + " " + data.ident);
+      identList = [];
+//console.log(data.userList);
+        for (let i=0;i<data.userList.length;i++) {
+          console.log(data.userList[i].name);
+          identList.push({ident:data.userList[i].ident});
+          $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
+        }
+    }
+  });
+}
+    //////////////////////////////////////////////
+
+function logoutClicked(){
+  $.get("/logout",function(data){
+    window.location = data.redirect;
+  });
+  return false;             
+}
+function uploadClicked(){
+    $.ajax({
+        url : "/setLocationURL",
+        type: "POST",
+        data : {location:$('#location').val(),URLL:$('#URL').val()},
+        success : function (data) {
+          if(data.error==true){
+            alert("You may want to check your URL because it doesn't contain the typical domain names, such as .org, .net, .edu, .com The URL sent is still accepted and is currently for room " + $('#location').val());
+          }
+          else{
+            alert("upload successful to room " + $('#location').val());
+          }
+        }
+    });
+  return false;
+}
+  </script>
+</html>
