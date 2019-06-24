@@ -124,6 +124,7 @@ var caption;
 var date;
 app.post('/setLocationAndsetCaption', function (req, res){
   location = req.body.location
+  console.log("first");
   console.log(req.body.date);
   caption = req.body.date + " " + req.body.caption;
   //res.sendFile(__dirname + '/uploadSettings/index.html');
@@ -131,11 +132,13 @@ app.post('/setLocationAndsetCaption', function (req, res){
 
 app.post('/fileUpload', function (req, res){
     var form = new formidable.IncomingForm();
+    console.log("second");
     form.parse(req, function (err, fields, files){
       var oldPath = files.filetoupload.path;
       var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
         if (err) throw err;
+        console.log("third");
         fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
               if (err) console.log(err);
           });
@@ -144,6 +147,7 @@ app.post('/fileUpload', function (req, res){
     });
 
     form.on('file', function (name, file){
+      console.log("fourth");
         console.log('Uploaded ' + file.name);
     });
 
