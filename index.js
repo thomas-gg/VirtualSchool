@@ -127,7 +127,7 @@ app.post('/setLocationAndsetCaption', function (req, res){
   console.log("first");
   console.log(req.body.date);
   caption = req.body.date + " " + req.body.caption;
-  //res.sendFile(__dirname + '/uploadSettings/index.html');
+  res.json({nothing:nothing});
 });
 
 app.post('/fileUpload', function (req, res){
