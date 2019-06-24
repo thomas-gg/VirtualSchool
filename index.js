@@ -120,9 +120,13 @@ app.get('/admin', function (req, res){
 ///////////////////
 var fileName;
 var location;
-app.post('/setLocation', function (req, res){
+var caption;
+var date;
+app.post('/setLocationAndsetCaption', function (req, res){
   location = req.body.location
-  res.sendFile(__dirname + '/uploadSettings/index.html');
+  console.log(req.body.date);
+  caption = req.body.date + " " + req.body.caption;
+  //res.sendFile(__dirname + '/uploadSettings/index.html');
 });
 
 app.post('/fileUpload', function (req, res){
@@ -132,15 +136,6 @@ app.post('/fileUpload', function (req, res){
       var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
         if (err) throw err;
-
-        var caption;
-        var date;
-        app.post('/setCaption', function (req, res){
-          console.log(req.body.date);
-          caption = req.body.date + " " + req.body.caption;
-          res.sendFile(__dirname + '/uploadSettings/index.html');
-        });
-
         fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
               if (err) console.log(err);
           });

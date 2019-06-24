@@ -29,50 +29,7 @@
     <br>
     <input type = "button" id = "logout" value = "Logout">
     <br>
-    <script>
-    	$(document).ready(function(){
-    		$("#submit").click(submitClicked);
-        $("#logout").click(logoutClicked);
-      });
-      function stringIncludes(str) {
-        let badChars = ['<','>'];
-        for (i=0;i<badChars.length;i++)
-        {
-          if (str.includes(badChars[i]))
-          {
-            return true;
-          }
-        }
-        return false;
-      }
-      function submitClicked(){
-        if(stringIncludes($('#caption').val())){
-          alert("you can't use the symbols < or > in the caption");
-          return false; //doesn't send file because string includes <>&\\
-        }
-        alert("This will be reviewed by an Administer before it is posted");
-        $.ajax({
-          url: "/setLocation",
-          type: "POST",
-          data: {location:$('#location').val()},
-          success: function(data){},
-          dataType: "json"
-        });
-        $.ajax({
-          url: "/setCaption",
-          type: "POST",
-          data: {caption:$('#caption').val(), date:new Date()},
-          success: function(data){},
-          dataType: "json"
-        });
-      }
-      function logoutClicked(){
-        $.get("/logout",function(data){
-         window.location = data.redirect;
-        });
-        return false;             
-      }
-    </script>
+    <script src="js/usersession.js"></script>
 
   </body>
 </html>
