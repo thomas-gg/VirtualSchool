@@ -16,6 +16,20 @@ $(document).ready(function() {
                 }
             }
         });
+        $.ajax({
+            url : "/getAllDisplayPost",
+            type: "GET",
+            success : function (data) {
+                for(var i = 0 ; i < data.files.length ; i++) {
+                  if(data.files[i].includes("txt")) {
+                    for(var w = 0 ; w < data.files.length ; w++) {
+                      if(!data.files[w].includes("txt") && data.files[i].includes(data.files[w].substring(0,data.files[w].indexOf("."))))
+                      captionToTextPost(data.files[i],data.files[w],data.files[i],data.files[w]);
+                    }
+                  }
+                }
+            }
+        });
         $.get("/adminInfo",function(data){
         if (data.username) {
           console.log("in adminInfo");
@@ -46,9 +60,25 @@ $(document).ready(function() {
             }
         });
     }
+    function captionToTextPost(urltext,urlmedia,txtfile,mediafile){
+      $.ajax({
+            url : urltext,
+            dataType: "text",
+            success : function (data) {
+              if(urlmedia.includes("jpg") || urlmedia.includes("JPG") ||urlmedia.includes("png") || urlmedia.includes("gif")) {
+                $("#approvedMedia").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
+              }
+              else if(urlmedia.includes("MP4") || urlmedia.includes("mp4")){
+                $("#approvedMedia").append("<tr>,<td><video width='150' height = '150' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
+              }
+
+            }
+        });
+    }
 
     $("#approveID").click(function(){
       var values = [];
+      if(confirm("Are you sure you want to reject and accept these media"))
       $.each($("input[name='approvalcheck']:checked"), function () {
         var data = $(this).parents('tr:eq(0)');
         $.ajax({
@@ -64,7 +94,23 @@ $(document).ready(function() {
       $.each($("input[name='rejectcheck']:checked"), function () {
         var data = $(this).parents('tr:eq(0)');
         $.ajax({
-            url : "/deleteFile",
+            url : "/deleteFileFromPre",
+            type: "POST",
+            data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
+            success : function (data) {
+                console.log("values array succesfully sent");
+            }
+        });
+        $(data).remove();
+      });
+      location.reload();//reload the page
+    });
+    $("#rejectSubmission").click(function(){
+    if(confirm("Are you sure you want to delete from the game forever?"))
+      $.each($("input[name='rejectcheck']:checked"), function () {
+        var data = $(this).parents('tr:eq(0)');
+        $.ajax({
+            url : "/deleteFileFromPost",
             type: "POST",
             data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
             success : function (data) {

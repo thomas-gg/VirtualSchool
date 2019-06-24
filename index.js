@@ -161,7 +161,7 @@ app.get("/getAllDisplayPre",function(req,res) {
     var files = getFiles(__dirname + "/uploadSettings/approval/mediaPreApproval/");
   res.json({files:files}); //needs to match public var unity create fromjson
 });
-app.post("/deleteFile",function(req,res) {
+app.post("/deleteFileFromPre",function(req,res) {
   fs.unlink(__dirname + "/uploadSettings/approval/mediaPreApproval/" + req.body.textFile, function (err) {
     if (err) throw err;
     // if no error, file has been deleted successfully
@@ -173,6 +173,17 @@ app.post("/deleteFile",function(req,res) {
     console.log('File deleted!');
   });
 });
+app.post("/deleteFileFromPost",function(req,res) {
+  fs.unlink(__dirname + "/uploadSettings/approval/mediaPostApproval/" + req.body.textFile, function (err) {
+    if (err) throw err;
+    // if no error, file has been deleted successfully
+    console.log('File deleted!');
+  });
+  fs.unlink(__dirname + "/uploadSettings/approval/mediaPostApproval/" + req.body.mediaFile, function (err) {
+    if (err) throw err;
+    // if no error, file has been deleted successfully
+    console.log('File deleted!');
+  });
 app.post("/moveApproveToFolder",function(req,res) {
   var files = getFiles(__dirname + "/uploadSettings/approval/mediaPreApproval/");
   var matchedFile = [];
