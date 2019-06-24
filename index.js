@@ -184,6 +184,7 @@ app.post("/deleteFileFromPost",function(req,res) {
     // if no error, file has been deleted successfully
     console.log('File deleted!');
   });
+});
 app.post("/moveApproveToFolder",function(req,res) {
   var files = getFiles(__dirname + "/uploadSettings/approval/mediaPreApproval/");
   var matchedFile = [];
