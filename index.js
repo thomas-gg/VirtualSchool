@@ -28,7 +28,8 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var session = require("express-session");
 app.use(cookieParser());
-mongoose.connect("mongodb://brad123:brad123@cluster0-shard-00-00-gzlxs.mongodb.net:27017,cluster0-shard-00-01-gzlxs.mongodb.net:27017,cluster0-shard-00-02-gzlxs.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true");   //27017 seems to be the port number used by mongod
+mongoose.connect("mongodb://brad123:brad123@cluster0-shard-00-00-gzlxs.mongodb.net:27017,cluster0-shard-00-01-gzlxs.mongodb.net:27017,cluster0-shard-00-02-gzlxs.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true", { useNewUrlParser: true });   //27017 seems to be the port number used by mongod
+mongoose.set('useCreateIndex', true);
 setUpPassport();
 
 app.use(session({
