@@ -132,7 +132,6 @@ app.post('/setLocationAndsetCaption', function (req, res){
 
 app.post('/fileUpload', function (req, res){
     var form = new formidable.IncomingForm();
-    console.log("second");
     form.parse(req, function (err, fields, files){
       var oldPath = files.filetoupload.path;
       var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
@@ -147,7 +146,7 @@ app.post('/fileUpload', function (req, res){
     });
 
     form.on('file', function (name, file){
-      console.log("fourth");
+      console.log("second");
         console.log('Uploaded ' + file.name);
     });
 

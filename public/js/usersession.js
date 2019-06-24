@@ -24,6 +24,7 @@
           url: "/setLocationAndsetCaption",
           type: "POST",
           data: {location:$('#location').val(),caption:$('#caption').val(), date:new Date()},
+          sync: false,
           success: function(data){},
           dataType: "json"
         });
