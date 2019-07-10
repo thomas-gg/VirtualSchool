@@ -142,7 +142,7 @@ router.get("/adminsession", function(req, res) {
 router.get("/teachersession", function(req, res) {
   console.log("get teachersession");
   if (req.isAuthenticated()) {
-       let thePath = path.resolve(__dirname,"public/views/teachersession.html");   
+       let thePath = path.resolve(__dirname,"public/views/teacherSession.html");   
        res.sendFile(thePath); 
   } else {
     let thePath = path.resolve(__dirname,"public/views/login.html");    
