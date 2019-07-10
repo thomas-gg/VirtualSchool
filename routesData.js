@@ -32,9 +32,8 @@ let db = new myDatabase();
 
 
 router.delete('/deleteUser/:identifier', function(req, res){
-////added below for mosngo	
-console.log("WAs THIS evn clalse");
-	User.remove({ident:req.params.identifier},function(error,removed) {
+////added below for mosngo	change from remove to deleteOne
+	User.deleteOne({ident:req.params.identifier},function(error,removed) {
         if (error) {
             return res.json(null);
         }

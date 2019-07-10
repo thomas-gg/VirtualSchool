@@ -5,6 +5,13 @@ var passport = require("passport");
 var User = require("./models/user");
 
 var router = express.Router();
+var teachers = [];
+var amntOfTeachers = 0;
+for (var i = 0; i < 10; i++){
+  for (var w = 1; w < 10; w++)
+  teachers[amntOfTeachers] = "teacher" + w + "0" + i + "";
+  amntOfTeachers ++;
+}
 
 //function ensureAuthenticated(req, res, next) {
 //  if (req.isAuthenticated()) {
@@ -60,6 +67,9 @@ console.log("get successsignup");
     {
       res.json({redirect:"/adminsession"});      
     }
+    else if(req.user.username.includes("teacher")){
+      res.json({redirect:"/teachersession"});
+    }
     else
     {
       res.json({redirect:"/session"});    
@@ -77,6 +87,9 @@ console.log("get successlogin");
     if (req.user.username == "admin")
     {
       res.json({redirect:"/adminsession"});      
+    }
+    else if(req.user.username.includes("teacher")){
+      res.json({redirect:"/teachersession"});
     }
     else
     {
@@ -96,12 +109,6 @@ console.log("get root");
 	let thePath = path.resolve(__dirname,"public/views/login.html");		
 	res.sendFile(thePath);	
 
- // User.find()
- // .sort({ createdAt: "descending" })
- // .exec(function(err, users) {
- //   if (err) { return next(err); }
- //   res.render("index", { users: users });
- // });
 });
 
 router.get("/signup", function(req, res) {
@@ -124,7 +131,18 @@ console.log("get login");
 router.get("/adminsession", function(req, res) {
   console.log("get adminsession");
   if (req.isAuthenticated()) {
-       let thePath = path.resolve(__dirname,"uploadSettings/approval/index.html");   
+       let thePath = path.resolve(__dirname,"public/views/adminSession.html");   
+       res.sendFile(thePath); 
+  } else {
+    let thePath = path.resolve(__dirname,"public/views/login.html");    
+  res.sendFile(thePath);  
+  }
+});
+
+router.get("/teachersession", function(req, res) {
+  console.log("get teachersession");
+  if (req.isAuthenticated()) {
+       let thePath = path.resolve(__dirname,"public/views/teachersession.html");   
        res.sendFile(thePath); 
   } else {
     let thePath = path.resolve(__dirname,"public/views/login.html");    
@@ -135,7 +153,7 @@ router.get("/adminsession", function(req, res) {
 router.get("/session", function(req, res) {
   console.log("get session");
   if (req.isAuthenticated()) {
-	     let thePath = path.resolve(__dirname,"uploadSettings/index.html");		
+	     let thePath = path.resolve(__dirname,"public/views/userSession.html");		
 	     res.sendFile(thePath);	
   } else {
   	let thePath = path.resolve(__dirname,"public/views/login.html");		
