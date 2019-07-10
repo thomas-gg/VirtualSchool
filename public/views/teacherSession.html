@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teacher</title>
+    <meta charset="utf-8"/>
+    <style type="text/css">
+
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  </head>
+
+  <body>
+    <h1 id = "session"></h1>
+    <h3>Upload URL</h3>
+        <label> Location <b></label>
+        <label id = "location"></b></label>
+    <br><br>
+    <label>Upload URL to Classroom (Make sure it says https://... or http://...) </label> <input type = "text" id = "URL">
+    <input type = "button" id = "uploadURL" value = "upload URL">
+
+    <hr>
+
+    <h3>Upload Pictures</h3>
+    <form action="fileupload" method="post" enctype="multipart/form-data">
+      <input type="file" name="filetoupload">
+      <br>
+      <br>
+
+      <label for = "caption"> Caption </label>
+      <br>
+      <textarea id = "caption" rows="5" cols="50"></textarea>
+      <br><br>
+
+      <input type = "submit" id = "submit"> 
+
+    </form>
+    <hr>
+
+    <h3>Media in Your Classroom</h3>
+    <table id = "approvedMedia" border = "3">
+        <thead>
+              <tr>
+                <th>Media</th>
+                <th>Caption</th>
+                <th>Text File Name</th>
+                <th>Media File Name</th>
+                <th>Location</th>
+                <th>Date Uploaded</th>
+                <th>Reject</th>
+              </tr>
+          </thead>
+    </table>
+    <br>
+    <input id = "rejectSubmission" type="submit" value = "Submit">
+    <br>
+    <hr>
+    <input type = "button" id = "logout" value = "Logout">
+
+
+  </body>
+  <script src="js/teachersession.js"></script>
+</html>

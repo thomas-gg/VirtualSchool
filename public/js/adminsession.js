@@ -3,20 +3,6 @@ $(document).ready(function() {
       $("#deleteButton").click(deleteClicked);
       $("#logout").click(logoutClicked);
         $.ajax({
-            url : "/getAllDisplayPre",
-            type: "GET",
-            success : function (data) {
-                for(var i = 0 ; i < data.files.length ; i++) {
-                  if(data.files[i].includes("txt")) {
-                    for(var w = 0 ; w < data.files.length ; w++) {
-                      if(!data.files[w].includes("txt") && data.files[i].includes(data.files[w].substring(0,data.files[w].indexOf("."))))
-                      captionToText(data.files[i],data.files[w],data.files[i],data.files[w]);
-                    }
-                  }
-                }
-            }
-        });
-        $.ajax({
             url : "/getAllDisplayPost",
             type: "GET",
             success : function (data) {
@@ -32,12 +18,12 @@ $(document).ready(function() {
         });
         $.get("/adminInfo",function(data){
         if (data.username) {
-          console.log("in adminInfo");
+          //console.log("in adminInfo");
           $("#session").text("Admin Session " + data.username + " " + data.ident);
           identList = [];
     //console.log(data.userList);
             for (let i=0;i<data.userList.length;i++) {
-              console.log(data.userList[i].name);
+             // console.log(data.userList[i].name);
               identList.push({ident:data.userList[i].ident});
               $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
             }
@@ -45,21 +31,6 @@ $(document).ready(function() {
       });
     });
 
-    function captionToText(urltext,urlmedia,txtfile,mediafile){
-      $.ajax({
-            url : urltext,
-            dataType: "text",
-            success : function (data) {
-              if(urlmedia.includes("jpg") || urlmedia.includes("JPG") ||urlmedia.includes("png") || urlmedia.includes("gif")) {
-                $("#Submissions").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td>,<td><input type = 'checkbox' name='approvalcheck' /></td>,<td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
-              }
-              else if(urlmedia.includes("MP4") || urlmedia.includes("mp4")){
-                $("#Submissions").append("<tr>,<td><video width='150' height = '150' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td>,<td><input type = 'checkbox' name='approvalcheck' /></td>,<td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
-              }
-
-            }
-        });
-    }
     function captionToTextPost(urltext,urlmedia,txtfile,mediafile){
       $.ajax({
             url : urltext,
@@ -86,7 +57,7 @@ $(document).ready(function() {
             type: "POST",
             data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
             success : function (data) {
-                console.log("values array succesfully sent");
+                //console.log("values array succesfully sent");
             }
         });
         $(data).remove();
@@ -98,7 +69,7 @@ $(document).ready(function() {
             type: "POST",
             data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
             success : function (data) {
-                console.log("values array succesfully sent");
+                //console.log("values array succesfully sent");
             }
         });
         $(data).remove();
@@ -114,7 +85,7 @@ $(document).ready(function() {
             type: "POST",
             data : {'textFile':$(data).find('td:eq(2)').text(),'mediaFile':$(data).find('td:eq(3)').text()},
             success : function (data) {
-                console.log("values array succesfully sent");
+               // console.log("values array succesfully sent");
             }
         });
         $(data).remove();
@@ -126,13 +97,13 @@ $(document).ready(function() {
         var nameIDNum = -1;
         $.get("/adminInfo",function(data){
             if (data.username) {
-              console.log("in adminInfo");
+             // console.log("in adminInfo");
               
               //console.log(data.userList);
                   for (let i=0;i<data.userList.length;i++) {
                     if(data.userList[i].name == $("#names").val()){
                       nameIDNum = data.userList[i].ident;
-                      console.log("this was called " + nameIDNum); //gets id of name thing
+                   //   console.log("this was called " + nameIDNum); //gets id of name thing
                     }
                   }
                   $.ajax({
@@ -156,12 +127,12 @@ function resetUserList(){
   $('#names').empty();
   $.get("/adminInfo",function(data){
     if (data.username) {
-      console.log("in adminInfo");
+      //console.log("in adminInfo");
       $("#session").text("Admin Session " + data.username + " " + data.ident);
       identList = [];
 //console.log(data.userList);
         for (let i=0;i<data.userList.length;i++) {
-          console.log(data.userList[i].name);
+         //console.log(data.userList[i].name);
           identList.push({ident:data.userList[i].ident});
           $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
         }

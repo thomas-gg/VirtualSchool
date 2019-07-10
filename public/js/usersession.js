@@ -25,7 +25,7 @@
           type: "POST",
           data: {location:$('#location').val(),caption:$('#caption').val(), date:new Date()},
           async: false,
-          success: function(data){alert("it worked?");},
+          success: function(data){},
           dataType: "json"
         });
         
