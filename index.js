@@ -160,7 +160,7 @@ app.post('/fileUpload', function (req, res){
         console.log('Uploaded ' + file.name);
     });
 
-    res.sendFile(__dirname + '/uploadSettings/index.html');
+    res.sendFile(__dirname + '/public/views/teacherSession.html');
 });
 
 
