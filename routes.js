@@ -209,7 +209,7 @@ function initAdmin(req,res) {
 */
 router.get("/userInfo",function(req,res){
   if (req.isAuthenticated()) {
-      res.json({username:req.user.username,url,req.user.url});
+      res.json({username:req.user.username,url:req.user.url});
 	}
 	else {
 		res.json(null);
