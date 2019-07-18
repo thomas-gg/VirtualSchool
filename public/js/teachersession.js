@@ -122,7 +122,7 @@ function submitClicked(){
     url: "/setLocationAndsetCaption",
     type: "POST",
     data: {location:$('#location').text(),caption:$('#caption').val(), date:new Date()},
-    
+    async:false;
     success: function(data){},
     dataType: "json"
   });
