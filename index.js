@@ -45,16 +45,26 @@ app.use(passport.session());
 
 app.use(routes);
 app.use(routesData);
+
+var User = require("./models/user");
+mongoose.set('useFindAndModify', false);
 ////////////////////////////////////////////////////////////
 app.post('/setLocationURL', function (req, res){
   var error = false;
   var URLL = JSON.stringify(req.body.URLL);
+  URLL = URLL.substring(1,URLL.length-1);
   if(!(URLL.includes(".com")||URLL.includes(".org")||URLL.includes(".edu")||URLL.includes(".gov")||URLL.includes(".net")||URLL.includes(".biz")||URLL.includes(".info"))){
     error = true;
   }
-  fs.writeFile(__dirname + "/uploadSettings/approval/mediaPostApproval/" + req.body.location + "_URL" + ".txt", req.body.URLL, function(err, data) {
-          if (err) console.log(err);
-        });
+  if (req.isAuthenticated()) {
+      req.user.url = URLL;
+      User.findOneAndUpdate({ident:req.user.ident},{url:req.user.url},function(error,info) {
+
+      });
+  }
+  else {
+    error = true;
+  }
   res.json({error:error});
 });
 ///////////////////////////////////////////////////////////

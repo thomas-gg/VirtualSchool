@@ -1,5 +1,10 @@
+function ajax(options) {
+  return new Promise(function(resolve, reject) {
+    $.ajax(options).done(resolve).fail(reject);
+  });
+} //promise function https://www.stephanboyer.com/post/107/fun-with-promises-in-javascript
 $(document).ready(function() {
-      displaySessionName();
+      displaySessionNameAndURL();
       $("#uploadURL").click(uploadClicked);
       $("#logout").click(logoutClicked);
       $("#submit").click(submitClicked);
@@ -11,7 +16,7 @@ $(document).ready(function() {
                 for(var i = 0 ; i < data.files.length ; i++) {
                   if(data.files[i].includes("txt")) {
                     for(var w = 0 ; w < data.files.length ; w++) {
-                      if(!data.files[w].includes("txt") && data.files[i].includes(data.files[w].substring(0,data.files[w].indexOf("."))) && data.files[i].includes(displaySessionName().substring(7)))
+                      if(!data.files[w].includes("txt") && data.files[i].includes(data.files[w].substring(0,data.files[w].indexOf("."))) && data.files[i].includes(displaySessionNameAndURL().substring(7)))
                       captionToTextPost(data.files[i],data.files[w],data.files[i],data.files[w]);
                     }
                   }
@@ -82,22 +87,17 @@ $(document).ready(function() {
       });
     });
       
-function displaySessionName(){
+function displaySessionNameAndURL(){
   var retVal = "";
-  $.ajax({
-      url: "/userInfo",
-      type: "GET",
-      data: {},
-      async: false,
-      success: function(data){
-        if (data.username) {
+  ajax('/userInfo', 'GET').then(function(data) {
+    if (data.username) {
           $("#session").text("Session for " + data.username);
+          $("#currURL").text(data.url);
           $("#location").text(data.username.substring(7));
+
           retVal = data.username;
         }
-      },
-      dataType: "json"
-  });
+  }); //uses promise function
   console.log("ret " + retVal);
   return retVal;
 }
@@ -122,7 +122,7 @@ function submitClicked(){
     url: "/setLocationAndsetCaption",
     type: "POST",
     data: {location:$('#location').text(),caption:$('#caption').val(), date:new Date()},
-    async: false,
+    
     success: function(data){},
     dataType: "json"
   });
@@ -150,5 +150,6 @@ function uploadClicked(){
           }
         }
     });
+    location.reload();//reload the page
   return false;
 }

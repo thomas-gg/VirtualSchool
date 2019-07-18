@@ -209,7 +209,7 @@ function initAdmin(req,res) {
 */
 router.get("/userInfo",function(req,res){
   if (req.isAuthenticated()) {
-      res.json({username:req.user.username});
+      res.json({username:req.user.username,url,req.user.url});
 	}
 	else {
 		res.json(null);
@@ -268,6 +268,7 @@ console.log("post signup");
     var newUser = new User({
       username: username,
       password: password,
+      url: "http://mvhs.vistausd.org/",
       ident: ident
     });
     newUser.save(next);    //this line has to be called.
