@@ -9,22 +9,33 @@ $(document).ready(function() {
       $("#logout").click(logoutClicked);
       $("#submit").click(submitClicked);
 
-        $.ajax({
-            url : "/getAllDisplayPost",
-            type: "GET",
-            success : function (data) {
-                for(var i = 0 ; i < data.files.length ; i++) {
-                  if(data.files[i].includes("txt")) {
-                    for(var w = 0 ; w < data.files.length ; w++) {
-                      if(!data.files[w].includes("txt") && data.files[i].includes(data.files[w].substring(0,data.files[w].indexOf("."))) && data.files[i].includes(displaySessionNameAndURL().substring(7)))
-                      captionToTextPost(data.files[i],data.files[w],data.files[i],data.files[w]);
+      var retVal = "";
+      var datafiles = [];
+
+      ajax('/getAllDisplayPost', 'GET').then(function(data) {
+        datafiles = data.files;
+      }).then(ajax('/userInfo', 'GET').then(function (data){
+        if (data.username) {
+          $("#session").text("Session for " + data.username);
+          $("#currURL").text(data.url);
+          $("#location").text(data.username.substring(7));
+
+          retVal = data.username;
+          console.log("ret val " + retVal);
+        }
+      }).then(function(data) {
+        console.log("ret val " + retVal);
+        for(var i = 0 ; i < datafiles.length ; i++) {
+                  if(datafiles[i].includes("txt")) {
+                    for(var w = 0 ; w < datafiles.length ; w++) {
+                      if(!datafiles[w].includes("txt") && datafiles[i].includes(datafiles[w].substring(0,datafiles[w].indexOf("."))) && datafiles[i].includes(retVal.substring(7)))
+                      captionToTextPost(datafiles[i],datafiles[w],datafiles[i],datafiles[w]);
                     }
                   }
                 }
-            }
-        });
-
-    });
+        })
+      ); //i had to do it this way so that the userInfo would return ALWAYS before the media in your classroom table stuff
+});
 
     function captionToTextPost(urltext,urlmedia,txtfile,mediafile){
       $.ajax({
@@ -97,9 +108,10 @@ function displaySessionNameAndURL(){
 
           retVal = data.username;
         }
+  }).then(function(data){
+    //console.log("ret " + retVal);
+    return retVal;
   }); //uses promise function
-  console.log("ret " + retVal);
-  return retVal;
 }
 function stringIncludes(str) {
   let badChars = ['<','>'];
@@ -122,6 +134,7 @@ function submitClicked(){
     url: "/setLocationAndsetCaption",
     type: "POST",
     data: {location:$('#location').text(),caption:$('#caption').val(), date:new Date()},
+    
     success: function(data){},
     dataType: "json"
   });
