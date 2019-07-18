@@ -137,18 +137,18 @@ app.post('/setLocationAndsetCaption', function (req, res){
   console.log("first");
   console.log(req.body.date);
   caption = req.body.date + " " + req.body.caption;
-  res.json({nothing:nothing});
+  res.json({nothing:"nothing"});
 });
 
 app.post('/fileUpload', function (req, res){
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files){
       var oldPath = files.filetoupload.path;
-      var newPath =  __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + files.filetoupload.name;
+      var newPath =  __dirname + '/uploadSettings/approval/mediaPostApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
         if (err) throw err;
         console.log("third");
-        fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
+        fs.writeFile(__dirname + "/uploadSettings/approval/mediaPostApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
               if (err) console.log(err);
           });
         
