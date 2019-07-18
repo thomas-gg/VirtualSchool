@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "VirtualSchool.data.unityweb",
+"asmCodeUrl": "VirtualSchool.asm.code.unityweb",
+"asmMemoryUrl": "VirtualSchool.asm.memory.unityweb",
+"asmFrameworkUrl": "VirtualSchool.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
