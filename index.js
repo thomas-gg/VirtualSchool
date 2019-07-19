@@ -106,6 +106,22 @@ app.get("/getAllDisplayPost",function(req,res) {
 	res.json({files:files}); //needs to match public var unity create fromjson
 });
 
+app.get("/getUrls",function(req,res) {
+    var holderStr = "";
+    var URLs = [];
+    User.find({},function(err,user) {
+      if (!err) {
+        for(var i = 1; i < user.length; i++){
+          URLs.push(user[i].username + '_' +user[i].url);
+          console.log(user[i].username + '_' + user[i].url + "_" + i);
+        }
+      }
+    }).then(function(data){
+      res.json({URLs:URLs}); //needs to match public variable in unity to create from json
+    }); //uses promise function 
+});
+
+
 app.post('/location', function(req, res){
 	console.log("do a location");
 	console.log("req.body.xpos = " + req.body.xpos);
