@@ -68,6 +68,26 @@ app.post('/setLocationURL', function (req, res){
   res.json({error:error});
 });
 ///////////////////////////////////////////////////////////
+app.post('/setLocationURLAdmin', function (req, res){
+  var error = false;
+  var URLL = JSON.stringify(req.body.URLL);
+  URLL = URLL.substring(1,URLL.length-1);
+  if(!(URLL.includes(".com")||URLL.includes(".org")||URLL.includes(".edu")||URLL.includes(".gov")||URLL.includes(".net")||URLL.includes(".biz")||URLL.includes(".info"))){
+    error = true;
+  }
+  if (req.isAuthenticated()) {
+      req.user.url = URLL;
+      User.findOneAndUpdate({username:"teacher"+req.body.location},{url:URLL},function(error,info) {
+
+      });
+      console.log('skmdksldmlcskmkdlcskmdckls'+"teacher"+req.body.location);
+  }
+  else {
+    error = true;
+  }
+  res.json({error:error});
+});
+///////////////////////////////////////////////////////////
 
 let xpos = 0;
 let ypos = 0;

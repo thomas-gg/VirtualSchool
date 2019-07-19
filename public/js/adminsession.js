@@ -26,8 +26,17 @@ $(document).ready(function() {
              // console.log(data.userList[i].name);
               identList.push({ident:data.userList[i].ident});
               $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
+              $('#location').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
             }
         }
+      });
+        $.get("/getUrls",function(data){
+          if(data.URLs!=null){
+            for(let i = 0; i < data.URLs.length; i++){
+              data.URLs[i] = data.URLs[i].substring(0,10) + " : " + data.URLs[i].substring(11);
+              $('#allURL').append("<p>" + data.URLs[i] + "</p>");
+            }
+          }
       });
     });
 
@@ -149,9 +158,9 @@ function logoutClicked(){
 }
 function uploadClicked(){
     $.ajax({
-        url : "/setLocationURL",
+        url : "/setLocationURLAdmin",
         type: "POST",
-        data : {location:$('#location').val(),URLL:$('#URL').val()},
+        data : {location:$('#location').val().substring(7),URLL:$('#URL').val()},
         success : function (data) {
           if(data.error==true){
             alert("You may want to check your URL because it doesn't contain the typical domain names, such as .org, .net, .edu, .com The URL sent is still accepted and is currently for room " + $('#location').val());
