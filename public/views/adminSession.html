@@ -2,52 +2,103 @@
 <!--   -->
 <html>
   <head>
-    <title>Admin</title>
+    <title>Admin Session</title>
     <meta charset="utf-8"/>
-    <style type="text/css">
-
-    </style>
+    <link href = "views/adminstyle.css" rel = "stylesheet" type = "text/css">
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   </head>
 
   <body>
-    <h3>Upload URL</h3>
-        <label for = "location"> Location </label>
-      <select id = "location">
-      </select>
-    <br><br>
-    <label>Upload URL to Classroom (Make sure it says https://... or http://...) </label> <input type = "text" id = "URL">
-    <input type = "button" id = "uploadURL" value = "upload URL">
-    <hr>
-    <label for="names">Delete User: </label>
-      <select id="names" name="names">
-      </select>  
-      <input type = "button" id = "deleteButton" value = "Delete">
-    <hr>
-    <h3>Pictures In Game</h3>
-    <table id = "approvedMedia" border = "3">
+
+
+    <div class="welcome"></div>
+    <div class="welcometext">
+      <h1 id="session">Welcome, admin</h1>
+    </div>
+
+
+    <div class = "flex-container center">
+      <div class="flex-item">
+        <p class = "uploadURL">Upload a URL</p>
+<!--
+          <label> Location <b></label>
+          <label id = "location"></b></label>
+          <br><br>
+-->
+          <div class = "center-upload">
+            <p class= "uploadCntxt">Uploading to Room for: </p>
+            <select id = "location"></select>
+          </div>
+          <p class="uploadHint">(Make sure it says https://... or http://...)</p>
+          <input type = "text" id = "URL" class = "URL-text">
+          <input type = "button" class = "upload-url" id = "uploadURL" value = "Upload"><br>
+      </div>
+      <img src="views/mvlogo.png" id="mv-logo" width = "300px" height = "300px">
+        <div class = "flex-item">
+          <p class = "create-teacher">Create a Teacher User</p>
+          <p class = "type-number">Type the name of the teacher's room number</p>
+          <p class = "create-hint">By default, username is teacher(room number), and password is (room number)<p>
+          <input type = "text" class = "teacher-number" id = "teacherNum" placeholder = "Enter Room Number Here" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" />
+          <input type = "button" class = "create-button" id = "createTeachers" value = "Make Teacher">
+           <!-- above code gets rid of - and e/E exponents-->
+        </div>
+    </div>
+
+    <div class = "table-display">
+      <p class = "media-in-classroom">Media in Game</p>
+      <table id = "approvedMedia" class = "content-table">
         <thead>
-              <tr>
-                <th>Media</th>
-                <th>Caption</th>
-                <th>Text File Name</th>
-                <th>Media File Name</th>
-                <th>Location</th>
-                <th>Date Uploaded</th>
-                <th>Delete From Game</th>
-              </tr>
-          </thead>
-    </table>
-    <br>
-    <input id = "rejectSubmission" type="submit" value = "Submit">
-    <br>
-    <hr>
-    <h3>Current Urls: </h3>
-    <div id = "allURL">
+          <tr>
+            <th><label for="media">Media</label><input type="checkbox" id="media" data-toggle="toggle"></th>
+            <th>Caption</th>
+            <th>Text File Name</th>
+            <th>Media File Name</th>
+            <th>Location</th>
+            <th>Date Uploaded</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody class = "hide">
+        </tbody>
+      </table>
+      <br>
+      <input id = "rejectSubmission" class = "submit-changes" type="submit" value = "Submit Changes">
+    </div><br><hr>
+
+    <div class = "long-flex-container center">
+      <div class = "long-flex-item">
+        <p class = "current-urls">Current URLs</p>
+        <div id = "allURL">
+        </div>
+      </div>
+      <div class = "long-flex-item">
+        <p class = "delete-users">Delete Users</p>
+        <div id="names" name="names">
+        </div>
+        <button type="button" class = "submit-button" id = "deleteButton">Delete</button>
+      </div>
     </div>
     <hr>
-    <input type = "button" id = "logout" value = "Logout">
-
+    <div class = "passwordreset-flex">
+      <div class = "reset-flex-item">
+        <p class = "resetTitle">Reset Password</p>
+        <p class="login">New Password</p>
+        <input id="psw" type="password" placeholder="Enter Password">
+        <p class="login">Confirm Password</p>
+        <input id="confirmpsw" type="password" placeholder="Enter Password again">
+        <button type="button" class = "submit-button" id = "resetPassword">Reset</button>
+      </div>
+    </div>
+    <div class = "logout-flex">
+      <input type = "button" id = "logout" class = "logout-button" value = "Logout">
+    </div>
   </body>
   <script src="js/adminsession.js"></script>
+  <script>
+    $(document).ready(function() {
+	     $('[data-toggle="toggle"]').change(function(){
+		       $(this).parents().next('.hide').toggle();
+	     });
+     });
+  </script>
 </html>

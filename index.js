@@ -1,3 +1,4 @@
+//Created By Thomas Garry, Austin LaChance, and Daniel Dyerly
 var express = require("express");
 var bodyParser = require('body-parser');
 var app = express();
@@ -13,12 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); //you need these for some reasons
 
 /////////////////////////////////////////////////////////////// index.js of studentExercise2019TestStart
-//skclskdcklsdjc
+
 var setUpPassport = require("./setuppassport");
 var routes = require("./routes");
 var routesData = require("./routesData");    //added
 
-app.set("port", process.env.PORT || 3006);
+app.set("port", process.env.PORT || 3000);
 app.use('/', express.static(__dirname + './'));
 app.use('/js', express.static(__dirname + './public/js'));
 app.use(express.static(path.join(__dirname, "public")));
@@ -29,7 +30,7 @@ var passport = require("passport");
 var session = require("express-session");
 app.use(cookieParser());
 mongoose.connect("mongodb://brad123:brad123@cluster0-shard-00-00-gzlxs.mongodb.net:27017,cluster0-shard-00-01-gzlxs.mongodb.net:27017,cluster0-shard-00-02-gzlxs.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true", { useNewUrlParser: true });   //27017 seems to be the port number used by mongod
-mongoose.set('useCreateIndex', true);
+mongoose.set('useCreateIndex', true); //gets rid of deprecation warnings also the use newurlparser thing above in the code
 setUpPassport();
 
 app.use(session({
@@ -68,6 +69,36 @@ app.post('/setLocationURL', function (req, res){
   res.json({error:error});
 });
 ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+app.post('/createTeachers', function (req, res,next){
+  let error = 0;
+
+   User.find({},function(err,user) {
+      if (!err) {
+
+        if(req.body.teacherNum.length!=3 || isNaN(req.body.teacherNum)){
+          error = 2;
+        }
+        for(var i = 0; i < user.length; i++){
+          if(user[i].username == ("teacher" + req.body.teacherNum)){
+            error = 1;
+          }
+        }
+        if(error == 0){
+          console.log(req.body.teacherNum)
+          var newUser = new User({
+              username: "teacher" + req.body.teacherNum,
+              password: req.body.teacherNum,
+              url: "https://mvhs.vistausd.org/",
+              ident: req.body.teacherNum});
+          newUser.save(next);
+        }
+        res.json({error:error});
+      }
+      //return res.json({teachers:teachers});
+    });
+});
+///////////////////////////////////////////////////////////
 app.post('/setLocationURLAdmin', function (req, res){
   var error = false;
   var URLL = JSON.stringify(req.body.URLL);
@@ -80,7 +111,6 @@ app.post('/setLocationURLAdmin', function (req, res){
       User.findOneAndUpdate({username:"teacher"+req.body.location},{url:URLL},function(error,info) {
 
       });
-      console.log('skmdksldmlcskmkdlcskmdckls'+"teacher"+req.body.location);
   }
   else {
     error = true;
@@ -109,21 +139,20 @@ function getFiles(srcpath) {
 //req is info sending to server from client.
 //res is info sending to client from server.
 app.get("/",function(req,res) {
-	res.sendFile(path.resolve(__dirname,"index.html"));
+  res.sendFile(path.resolve(__dirname,"index.html"));
 });
 
 app.get("/getAllDisplayPost",function(req,res) {
 
-	console.log("does a get on files with dirname " + __dirname + "/uploadSettings/approval/mediaPostApproval");
-  	var files = getFiles(__dirname+ "/uploadSettings/approval/mediaPostApproval");
-  	var holderStr = "";
+  console.log("does a get on files with dirname " + __dirname + "/uploadSettings/approval/mediaPostApproval");
+    var files = getFiles(__dirname+ "/uploadSettings/approval/mediaPostApproval");
+    var holderStr = "";
 
-  	for (var i = files.length - 1; i >= 0; i--) {
-  		holderStr += files[i].substr(files[i].indexOf('.'))+ " ";
-  	}
+    for (var i = files.length - 1; i >= 0; i--) {
+      holderStr += files[i].substr(files[i].indexOf('.'))+ " ";
+    }
 
-  	console.log("these files are: " + files[0])
-	res.json({files:files}); //needs to match public var unity create fromjson
+  res.json({files:files}); //needs to match public variable in unity to create from json
 });
 
 app.get("/getUrls",function(req,res) {
@@ -133,26 +162,23 @@ app.get("/getUrls",function(req,res) {
       if (!err) {
         for(var i = 1; i < user.length; i++){
           URLs.push(user[i].username + '_' +user[i].url);
-          console.log(user[i].username + '_' + user[i].url + "_" + i);
         }
       }
-    }).then(function(data){
-      res.json({URLs:URLs}); //needs to match public variable in unity to create from json
-    }); //uses promise function 
+      return res.json({URLs:URLs});
+    });
 });
 
-
 app.post('/location', function(req, res){
-	console.log("do a location");
-	console.log("req.body.xpos = " + req.body.xpos);
-	console.log("req.body.ypos = " + req.body.ypos);
-	console.log("req.body.zpos = " + req.body.zpos);
+  console.log("do a location");
+  console.log("req.body.xpos = " + req.body.xpos);
+  console.log("req.body.ypos = " + req.body.ypos);
+  console.log("req.body.zpos = " + req.body.zpos);
 
-	valid = 1;
-	xpos = req.body.xpos;
-	ypos = req.body.ypos;
-	zpos = req.body.zpos;
-	res.json({valid:valid,xpos:xpos,ypos:ypos,zpos:zpos});
+  valid = 1;
+  xpos = req.body.xpos;
+  ypos = req.body.ypos;
+  zpos = req.body.zpos;
+  res.json({valid:valid,xpos:xpos,ypos:ypos,zpos:zpos});
 });
 ////////////
 /*
@@ -163,49 +189,66 @@ app.get('/newFile', function (req, res){
 app.get('/admin', function (req, res){
     res.sendFile(__dirname + '/uploadSettings/approval/index.html');
 });
-///////////////////
+
 var fileName;
 var location;
 var caption;
 var date;
+
 app.post('/setLocationAndsetCaption', function (req, res){
   location = req.body.location
-  console.log("first");
   console.log(req.body.date);
+  console.log("first");
   caption = req.body.date + " " + req.body.caption;
-  res.json({nothing:"nothing"});
+  var nothing = "";
+  res.json({nothing:'nothing'});
 });
 
+
 app.post('/fileUpload', function (req, res){
+  console.log("hello dear");
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files){
       var oldPath = files.filetoupload.path;
       var newPath =  __dirname + '/uploadSettings/approval/mediaPostApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
         if (err) throw err;
-        console.log("third");
-        fs.writeFile(__dirname + "/uploadSettings/approval/mediaPostApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
+        console.log('third');
+          fs.writeFile(__dirname + "/uploadSettings/approval/mediaPostApproval/" + location + "_" + files.filetoupload.name.substring(0, files.filetoupload.name.indexOf(".")) + ".txt", caption, function(err, data) {
               if (err) console.log(err);
-          });
-        
+          }); //the above code writes a text file based on the caption passed in
+          //here i moved from under function called form.on('fileBegin')
       });
+
     });
 
+    //form.on('fileBegin', function (name, file){
+
+        //file.path = __dirname + '/uploadSettings/approval/mediaPreApproval/' + location + "_" + file.name;
+        //fileName = file.name;
+        //fileName = fileName.substring(0, fileName.indexOf("."))
+        /*fs.writeFile(__dirname + "/captionsFolder/" + location + "_" + fileName + ".txt", caption, function(err, data) {
+          if (err) console.log(err);
+        }); */
+        //fs.writeFile(__dirname + "/uploadSettings/approval/mediaPreApproval/" + location + "_" + fileName + ".txt", caption, function(err, data) {
+        //  if (err) console.log(err);
+        //});
+    //});
+
     form.on('file', function (name, file){
-      console.log("second");
+      console.log('second');
         console.log('Uploaded ' + file.name);
     });
 
     res.sendFile(__dirname + '/public/views/teacherSession.html');
 });
 
-
 ////////////
 ////////////////////////////////////
 app.get("/getAllDisplayPre",function(req,res) {
-  console.log("does a get on files with dirname " + __dirname + "/uploadSettings/approval/mediaPreApproval/");
+  //console.log("does a get on files with dirname " + __dirname + "/uploadSettings/approval/mediaPreApproval/");
     var files = getFiles(__dirname + "/uploadSettings/approval/mediaPreApproval/");
-  res.json({files:files}); //needs to match public var unity create fromjson
+  res.json({files:files}); //needs to match public variable from unity to create from json
 });
 app.post("/deleteFileFromPre",function(req,res) {
   fs.unlink(__dirname + "/uploadSettings/approval/mediaPreApproval/" + req.body.textFile, function (err) {

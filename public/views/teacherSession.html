@@ -1,64 +1,111 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Teacher</title>
+    <title>Teacher Session</title>
     <meta charset="utf-8"/>
-    <style type="text/css">
-
-    </style>
+    <link href = "views/teacherstyle.css" rel = "stylesheet" type = "text/css">
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   </head>
-
   <body>
-    <h1 id = "session"></h1>
-    <h3>Upload URL</h3>
-        <label> Location <b></label>
-        <label id = "location"></b></label>
-    <br><br>
-    <label>Upload URL to Classroom (Make sure it says https://... or http://...) </label> <input type = "text" id = "URL">
-    <input type = "button" id = "uploadURL" value = "upload URL">
-    <br>
-    <label>Current URL: </label> <label id = "currURL"></label>
-
-    <hr>
-
-    <h3>Upload Pictures</h3>
-    <form action="fileupload" method="post" enctype="multipart/form-data">
-      <input type="file" name="filetoupload">
-      <br>
-      <br>
-
-      <label for = "caption"> Caption </label>
-      <br>
-      <textarea id = "caption" rows="5" cols="50"></textarea>
-      <br><br>
-
-      <input type = "submit" id = "submit"> 
-
-    </form>
-    <hr>
-
-    <h3>Media in Your Classroom</h3>
-    <table id = "approvedMedia" border = "3">
+    <div class="welcome"></div>
+    <div class="welcometext">
+      <h1 id="session"></h1>
+    </div><br>
+    <div class = "flex-container center">
+      <div class="flex-item">
+        <p class = "uploadURL">Upload a URL</p>
+<!--
+          <label> Location <b></label>
+          <label id = "location"></b></label>
+          <br><br>
+-->
+        <div class="urlUpload">
+          <p class="uploadCntxt" id="location" hidden = "hidden"></p>
+          <p class="uploadCntxt" id="locationNumber"></p>
+          <p class="uploadHint">(Make sure it says https://... or http://...)</p>
+          <input type = "text" id = "URL">
+          <input type = "button" class = "upload-url" id = "uploadURL" value = "Upload"><br>
+          <p class="currentURL">Current URL: <span id="currURL"> </span></p>
+        </div>
+      </div>
+      <div class="flex-item uploadPic">
+        <p class="uploadpic">Upload Media</p>
+        <form action="fileUpload" method="post" enctype="multipart/form-data">
+<!--
+          <input type="file" name="filetoupload">
+-->
+        <div class="uploadBtn">
+          <input type="file" id="real-file" hidden="hidden" name = "filetoupload"/>
+          <button type="button" id="custom-button">CHOOSE A FILE</button>
+          <span id="custom-text">No file chosen, yet.</span>
+        </div><br>
+        <div class="totalCaption">
+          <label for="caption" class="caption"> Write a caption: </label>
+          <br>
+          <textarea id = "caption" rows="7" cols="82"></textarea>
+          <input type="submit" class = "submit-button" id = "submit">
+        </div>
+        </form>
+      </div>
+    <div class="flex-item">
+      <p class = "uploadTitle">Upload a Title</p>
+      <div class="uploadTitleContent">
+        <p class = "uploadTitleCntxt">Upload the title(s) to appear above your door</p>
+        <p class = "uploadTitleHint">(If you are uploading multiple titles, be sure to put a comma in between)<p><br>
+          <input type = "text" id = "titles">
+          <input type = "button" class = "upload-url" id = "uploadTitle" value = "Upload"><br>
+          <p class="currentURL">Current Title(s):<span id="currTitle"> </span></p>
+      </div>
+    </div>
+  </div>
+  <hr><br>
+    <div class = "table-display">
+      <p class = "media-in-classroom">Media in Your Classroom</p>
+      <table id = "approvedMedia" class = "content-table">
         <thead>
-              <tr>
-                <th>Media</th>
-                <th>Caption</th>
-                <th>Text File Name</th>
-                <th>Media File Name</th>
-                <th>Location</th>
-                <th>Date Uploaded</th>
-                <th>Reject</th>
-              </tr>
-          </thead>
-    </table>
-    <br>
-    <input id = "rejectSubmission" type="submit" value = "Submit">
-    <br>
+          <tr>
+            <th><label for="media">Media</label><input type="checkbox" id = "media" data-toggle="toggle"></th>
+            <th>Caption</th>
+            <th>Text File Name</th>
+            <th>Media File Name</th>
+            <th>Location</th>
+            <th>Date Uploaded</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody class = "hide">
+        </tbody>
+      </table>
+      <br>
+      <input id = "rejectSubmission" class = "submit-changes" type="submit" value = "Submit Changes">
+    </div><br>
     <hr>
-    <input type = "button" id = "logout" value = "Logout">
+
+      <div class = "passwordreset-flex">
+      <div class = "reset-flex-item">
+        <p class = "resetTitle">Reset Password</p>
+        <p class="login">New Password</p>
+        <input id="psw" type="password" placeholder="Enter Password">
+        <p class="login">Confirm Password</p>
+        <input id="confirmpsw" type="password" placeholder="Enter Password again">
+        <button type="button" class = "submit-button" id = "resetPassword">Reset</button>
+      </div>
+    </div>
+      <hr>
 
 
+
+    <div class = "logout-flex">
+      <input type = "button" id = "logout" class = "logout-button" value = "Logout">
+    </div>
   </body>
   <script src="js/teachersession.js"></script>
+  <script src="js/teachersession2.js"></script>
+  <script>
+    $(document).ready(function() {
+	     $('[data-toggle="toggle"]').change(function(){
+		       $(this).parents().next('.hide').toggle();
+	     });
+     });
+  </script>
 </html>

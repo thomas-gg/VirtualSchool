@@ -1,0 +1,350 @@
+body {
+  background-color: darkgreen;
+  font-family: sans-serif;
+}
+
+.welcome {
+  height: 300px;
+  background: #000;
+  border: 5px solid #000;
+  color: #fff;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  position: inherit;
+  box-sizing: border-box;
+  padding: 70px 30px;
+  background:url(background.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.welcometext {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  top: 6%;
+  left: 25%;
+  position: absolute;
+  z-index: 1;
+  width: 50%;
+  padding: 20px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+}
+
+.center div {
+  background: white;
+}
+
+.flex-item {
+  padding: 5px;
+  width: 400px;
+  height: 420px;
+  margin: 35px;
+  line-height: 50px;
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+  border-radius: 15px;
+  border: 2px solid #000;
+  text-align: left;
+}
+
+.flex-item p {
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 20px;
+  color: black;
+  position: relative;
+}
+
+.flex-item p.uploadpic {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 30px;
+}
+
+.flex-item p.uploadURL {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 30px;
+}
+
+.flex-item p.uploadTitle {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 30px;
+}
+
+.flex-item p.uploadCntxt {
+  text-align: center;
+  font-size: 30px;
+}
+
+.flex-item p.uploadHint {
+  top: -10px;
+  font-size: 20px;
+  color: darkgrey;
+  text-align: center;
+}
+
+.flex-item p.currentURL {
+  font-size: 20px;
+  color: black;
+  text-align: center;
+}
+
+.flex-item p.uploadTitleCntxt {
+  font-size: 18px;
+  color: black;
+  text-align: center;
+}
+
+.flex-item p.uploadTitleHint {
+  top: -10px;
+  font-size: 15px;
+  color: darkgrey;
+  text-align: center;
+}
+
+.flex-item div.uploadTitleContent {
+  position: relative;
+  top: 15px;
+}
+
+.uploadPic {
+    width: 600px;
+}
+
+.uploadBtn {
+  padding: 0px 100px;
+}
+
+.caption {
+  font-size: 20px;
+}
+
+.urlUpload {
+  position: relative;
+  top: 15px;
+}
+
+.totalCaption {
+  position: relative;
+  top: -25px;
+}
+
+#custom-button {
+  padding: 20px;
+  font-size: 20px;
+  color: white;
+  background-color: darkgreen;
+  border: 2px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#custom-button:hover {
+  background-color: #00b28f;
+}
+
+#custom-text {
+  font-size: 15px;
+  display: inline;
+  margin-left: 10px;
+  font-family: sans-serif;
+  color: #aaa;
+}
+
+.submit-button {
+  top: -20px;
+  padding: 5px 15px;
+  font-size: 20px;
+  color: white;
+  background-color: darkgreen;
+  border: 2px solid #000;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #00b28f;
+}
+
+.upload-url {
+  top:-20px;
+  padding: 5px 15px;
+  font-size: 20px;
+  color: white;
+  background-color: darkgreen;
+  border: 2px solid #000;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.upload-url:hover {
+  background-color: #00b28f;
+}
+
+input[type=text], select {
+  top: -20px;
+  width: 70%;
+  padding: 12px 20px;
+  margin: 2px 2px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+textarea {
+  width: 100%;
+  padding: 5px 10px;
+  margin: 2px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.table-display {
+  /*can set minimum height, but otherwise no need to state height*/
+  background: #fff;
+  border: 5px solid #000;
+  color: #fff;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 10px 10px;
+}
+
+.table-display p.media-in-classroom {
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: underline;
+  color: black;
+  text-align: center;
+}
+
+.submit-changes {
+  left: 45%;
+  padding: 5px 15px;
+  font-size: 20px;
+  color: white;
+  background-color: darkgreen;
+  border: 2px solid #000;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.submit-changes:hover {
+  background-color: #00b28f;
+}
+
+.content-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  color: #000;
+  font-size: 0.9em;
+  min-width: 700px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.50);
+}
+
+.content-table thead tr {
+  background-color: darkgreen;
+  color: #000;
+  text-align: left;
+  font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+  padding: 12px 15px;
+}
+
+.content-table tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+  color: #000;
+}
+
+.content-table tr:last-of-type {
+  border-bottom: 2px solid darkgreen;
+}
+
+[data-toggle="toggle"] {
+	display: none;
+}
+/*
+.passwordreset-flex {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.reset-flex-item {
+  padding: 5px;
+  width: 600px;
+  height: 300px;
+  margin: 35px;
+  line-height: 50px;
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  font-size: 2em;
+  border-radius: 15px;
+  border: 2px solid #000;
+  text-align: left;
+}
+
+.resetTitle {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 30px;
+}
+*/
+
+.logout-flex {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.logout-button {
+  margin: 20px 0;
+  padding: 5px 15px;
+  font-size: 20px;
+  color: black;
+  width: 500px;
+  background-color: white;
+  border: 2px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #00b28f;
+}

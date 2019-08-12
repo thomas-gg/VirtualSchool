@@ -2,7 +2,8 @@
 <!--   -->
 <html>
   <head>
-    <title>Ajax</title>
+    <title>Login</title>
+    <link href = "views/loginstyle.css" rel = "stylesheet" type = "text/css">
     <meta charset="utf-8"/>
     <style type="text/css">
 
@@ -11,6 +12,24 @@
   </head>
 
   <body>
+    <div class = "break">
+      <div class = "loginbox">
+        <h1 class="header">MVHS Virtual Tour</h1>
+        <img src="views/avatar.png" class = "avatar">
+          <h1>Login Here</h1>
+          <form>
+            <p class="login">Username</p>
+            <input id="username" type="text" name="username" placeholder="Enter Username">
+            <p  class="login">Password</p>
+            <input id="psw" type="password" name="psw" placeholder="Enter Password">
+            <input type = "button" id = "submit" class = "sumbit-button" value = "Login">
+            <a href="./signup" class="signup">Forgot password?</a>
+            <p class="help">Looking for the tour?</p>
+            <a href="http://173.255.210.209:3006/">Back To Unity</a>
+          </form>
+        </div>
+      </div>
+<!--
 <h1>Login</h1>
 <form>
   User name:<br>
@@ -22,10 +41,10 @@
 <a href="./signup">signup</a>
 <br>
 <br>
-<a href="http://173.255.210.209:3006/">Back To Unity</a>
-
-
-	<script src="js/login.js"></script>
-
+<div class = "button">
+ <input type="button" class="active" onclick="location.href='http://localhost:3000/';" value="Go to Unity" />
+<a href="http://localhost:3000/" class="btn btn-one">Back to Unity</a>
+-->
+  <script src="js/login.js"></script>
   </body>
 </html>

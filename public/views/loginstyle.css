@@ -1,0 +1,163 @@
+body {
+  background-color: darkgreen;
+  font-family: sans-serif;
+  /*
+  background:url(background.jpg);
+  background-size: cover;
+  background-position: center;
+  */
+}
+
+.break {
+  width: 450px;
+  height: 550px;
+  background: white;
+  border: 3px solid black;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  box-sizing: border-box;
+  border-radius: 25px;
+}
+.loginbox {
+  width: 400px;
+  height: 500px;
+  background: #000;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  box-sizing: border-box;
+  padding: 70px 30px;
+}
+
+.avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  position: absolute;
+  top: -65px;
+  left: calc(50% - 65px);
+}
+
+h1.header {
+  text-decoration: underline overline;
+  top: -35%;
+  left: -45%;
+  text-align: center;
+  font-family: serif;
+  color: white;
+  font-size: 50px;
+  width: 750px;
+  position: absolute;
+  text-transform: uppercase;
+}
+
+h1 {
+  top:5px;
+  margin: 0;
+  padding: 0 0 20px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  position:relative;
+}
+
+.loginbox p.login{
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.loginbox input{
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.loginbox input[type="text"], input[type="password"] {
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  outline: none;
+  height: 40px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.loginbox #submit {
+  top: 10px;
+  width:100%;
+  border: 1px solid white;
+  background: darkgreen;
+  padding: 10px 30px;
+  color : white;
+  text-decoration: none;
+  margin-right: 5px;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+
+.loginbox #submit:hover {
+  color: black;
+  background-color: white;
+  transition: all 0.3s ease-in;
+}
+
+.loginbox a {
+  text-decoration: none;
+  font-size:12px;
+  line-height: 20px;
+  color: darkgrey;
+  position: relative;
+}
+
+.loginbox a:hover {
+  color: #ffc107;
+}
+
+.loginbox a.signup {
+top: -5px;
+left: 0px;
+}
+
+.loginbox p.help {
+  text-decoration: none;
+  color: white;
+  font-size:18px;
+  line-height: 20px;
+  color: darkgrey;
+  position: relative;
+  top:15px;
+  left:85px;
+}
+.loginbox a.backTo {
+  font-size: 18px;
+  top:5px;
+  left: 110px;
+}
+.btn
+{
+  border: 1px solid white;
+  padding: 10px 30px;
+  color : white;
+  text-decoration: none;
+  margin-right: 5px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.btn-one
+{
+  font-family: "Roboto", sans-serif;
+}
+
+.btn-one:hover
+{
+  color: black;
+  background-color: white;
+  transition: all 0.3s ease-in;
+}

@@ -8,6 +8,7 @@ $(document).ready(function() {
       $("#uploadURL").click(uploadClicked);
       $("#logout").click(logoutClicked);
       $("#submit").click(submitClicked);
+      $("#resetPassword").click(resetPasswordClicked);
 
       var retVal = "";
       var datafiles = [];
@@ -16,9 +17,10 @@ $(document).ready(function() {
         datafiles = data.files;
       }).then(ajax('/userInfo', 'GET').then(function (data){
         if (data.username) {
-          $("#session").text("Session for " + data.username);
+          $("#session").text("Welcome, " + data.username);
           $("#currURL").text(data.url);
           $("#location").text(data.username.substring(7));
+          $("#locationNumber").text("Uploading to Room " + data.username.substring(7));
 
           retVal = data.username;
           console.log("ret val " + retVal);
@@ -43,10 +45,10 @@ $(document).ready(function() {
             dataType: "text",
             success : function (data) {
               if(urlmedia.includes("jpg") || urlmedia.includes("JPG") ||urlmedia.includes("png") || urlmedia.includes("gif")) {
-                $("#approvedMedia").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
+                $("#approvedMedia").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px' border='1'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
               }
               else if(urlmedia.includes("MP4") || urlmedia.includes("mp4")){
-                $("#approvedMedia").append("<tr>,<td><video width='150' height = '150' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
+                $("#approvedMedia").append("<tr>,<td><video width='150' height = '150' border='1' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
               }
 
             }
@@ -97,12 +99,12 @@ $(document).ready(function() {
         $(data).remove();
       });
     });
-      
+
 function displaySessionNameAndURL(){
   var retVal = "";
   ajax('/userInfo', 'GET').then(function(data) {
     if (data.username) {
-          $("#session").text("Session for " + data.username);
+          $("#session").text("Welcome, " + data.username);
           $("#currURL").text(data.url);
           $("#location").text(data.username.substring(7));
 
@@ -129,25 +131,43 @@ function submitClicked(){
     alert("you can't use the symbols < or > in the caption");
     return false; //doesn't send file because string includes <>&\\
   }
-  
+
   $.ajax({
     url: "/setLocationAndsetCaption",
     type: "POST",
     data: {location:$('#location').text(),caption:$('#caption').val(), date:new Date()},
-    
+
     success: function(data){},
     dataType: "json"
   });
-        
+
 }
-    //////////////////////////////////////////////
+
+//////////////////////////////////////////////
+    function resetPasswordClicked () {
+      alert("password:" + $("#psw").val() + "and confirmpassword: " + $("#confirmpsw").val())
+      $.ajax({
+        url : "/changepsw",
+        type : "POST",
+        data : {username: "teacher" + $('#location').text() , password:$("#psw").val(), confirmpassword:$("#confirmpsw").val()},
+        success : function (data) {
+          if(!data)
+            alert("bad reset");
+          else
+            alert("good reset");
+        }
+      });
+      location.reload();
+    }
+//////////////////////////////////////////
 
 function logoutClicked(){
   $.get("/logout",function(data){
     window.location = data.redirect;
   });
-  return false;             
+  return false;
 }
+
 function uploadClicked(){
     $.ajax({
         url : "/setLocationURL",

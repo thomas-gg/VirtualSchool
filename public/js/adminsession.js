@@ -2,6 +2,9 @@ $(document).ready(function() {
       $("#uploadURL").click(uploadClicked);
       $("#deleteButton").click(deleteClicked);
       $("#logout").click(logoutClicked);
+      $("#createTeachers").click(teacherButtonClicked);
+      $("#resetPassword").click(resetPasswordClicked);
+
         $.ajax({
             url : "/getAllDisplayPost",
             type: "GET",
@@ -16,28 +19,33 @@ $(document).ready(function() {
                 }
             }
         });
+
         $.get("/adminInfo",function(data){
         if (data.username) {
           //console.log("in adminInfo");
-          $("#session").text("Admin Session " + data.username + " " + data.ident);
+          $("#session").text("Welcome, " + data.username);
           identList = [];
     //console.log(data.userList);
             for (let i=0;i<data.userList.length;i++) {
              // console.log(data.userList[i].name);
               identList.push({ident:data.userList[i].ident});
-              $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
+              $('#names').append($('<input type = "checkbox" name = "names" class = "teacher-names" id = ' + data.userList[i].name + '>' + '<label class = "teacher-labels"> ' + data.userList[i].name + '</label></select> <br>'));
               $('#location').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
             }
         }
       });
-        $.get("/getUrls",function(data){
-          if(data.URLs!=null){
-            for(let i = 0; i < data.URLs.length; i++){
-              data.URLs[i] = data.URLs[i].substring(0,10) + " : " + data.URLs[i].substring(11);
-              $('#allURL').append("<p>" + data.URLs[i] + "</p>");
+        $.ajax({
+          url : "/getUrls",
+          type: "GET",
+          success : function (data) {
+            if(data.URLs){
+              for(let i = 0; i < data.URLs.length; i++){
+                data.URLs[i] = data.URLs[i].substring(0,10) + " : " + data.URLs[i].substring(11);
+                $('#allURL').append("<p class = 'URLS'>" + data.URLs[i] + "</p>");
+              }
             }
           }
-      });
+        });
     });
 
     function captionToTextPost(urltext,urlmedia,txtfile,mediafile){
@@ -46,10 +54,10 @@ $(document).ready(function() {
             dataType: "text",
             success : function (data) {
               if(urlmedia.includes("jpg") || urlmedia.includes("JPG") ||urlmedia.includes("png") || urlmedia.includes("gif")) {
-                $("#approvedMedia").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
+                $("#approvedMedia").append("<tr>,<td><img src="+ urlmedia +" height = '150px' width = '150px' border = '1'/> </td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td>,</tr>");
               }
               else if(urlmedia.includes("MP4") || urlmedia.includes("mp4")){
-                $("#approvedMedia").append("<tr>,<td><video width='150' height = '150' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
+                $("#approvedMedia").append("<tr>,<td><video width='150' height = '150' border = '1' controls><source src="+ urlmedia +" type ='video/mp4'/></video></td>,<td>"+ data.substring(58) +"</td>,<td>" + txtfile + "</td>,<td>" + mediafile + "</td>,<td>" + mediafile.substring(0,3) + "</td>,<td>" + data.substring(0,24) + "</td><td><input type = 'checkbox' name='rejectcheck' /></td></tr>");
               }
 
             }
@@ -102,59 +110,84 @@ $(document).ready(function() {
     });
 
     //////////////////////////////////////////////
-    function deleteClicked(){
-        var nameIDNum = -1;
-        $.get("/adminInfo",function(data){
-            if (data.username) {
-             // console.log("in adminInfo");
-              
-              //console.log(data.userList);
-                  for (let i=0;i<data.userList.length;i++) {
-                    if(data.userList[i].name == $("#names").val()){
-                      nameIDNum = data.userList[i].ident;
-                   //   console.log("this was called " + nameIDNum); //gets id of name thing
-                    }
-                  }
-                  $.ajax({
-                    url: "/deleteUser/" + Number(nameIDNum),
-                    type: "DELETE",
-                    success: function(data) { 
-                      if (!data)
-                        alert("bad delete");
-                      else
-                        alert("good delete");
-                    } ,   
-                    dataType: "json"
-                  });
-                  resetUserList();
-                  return false;    
-                } 
-            });         
-      }      
-      
-function resetUserList(){
-  $('#names').empty();
+function deleteClicked(){
+  var nameIDNum = -1;
   $.get("/adminInfo",function(data){
     if (data.username) {
-      //console.log("in adminInfo");
-      $("#session").text("Admin Session " + data.username + " " + data.ident);
-      identList = [];
-//console.log(data.userList);
+
+      $("input[name='names']:checked").each( function () {
+
         for (let i=0;i<data.userList.length;i++) {
-         //console.log(data.userList[i].name);
-          identList.push({ident:data.userList[i].ident});
-          $('#names').append($('<option>', { value : data.userList[i].name }).text(data.userList[i].name));
+          if(data.userList[i].name == $(this).attr("id")){
+            nameIDNum = data.userList[i].ident;
+            alert("You deleted " + $(this).attr("id"));
+
+            $.ajax({
+              url: "/deleteUser/" + Number(nameIDNum),
+              type: "DELETE",
+              success: function(data) {
+                if (!data)
+                  alert("bad delete");
+                else
+                  alert("good delete");
+              } ,
+              dataType: "json"
+            });
+
+          }
         }
+      });
+      location.reload();
     }
   });
 }
+/////////////////////////////////////////////
+function resetPasswordClicked () {
+  alert("password:" + $("#psw").val() + "and confirmpassword: " + $("#confirmpsw").val())
+  $.ajax({
+    url : "/changepsw",
+    type : "POST",
+    data : {username: "admin", password:$("#psw").val(), confirmpassword:$("#confirmpsw").val()},
+    success : function (data) {
+      if(!data)
+        alert("bad reset");
+      else
+        alert("good reset");
+    }
+  });
+  location.reload();
+}
+/////////////////////////////////////////////////
+function teacherButtonClicked(){
+  let refreshNeeded = false;
+  ajax({
+    url : "/createTeachers",
+    type: "POST",
+    data : {teacherNum:$("#teacherNum").val()}}).then(function(data){
+      if (data.error == 0){
+        alert("Teacher successfully created.");
+        refreshNeeded = true;
+      }
+      else if (data.error == 1){
+        alert("Teacher already exists and was not created again.");
+      }
+      else if (data.error == 2){
+        alert("Invalid Entry. Make sure only 3 numbers are inputted.");
+      }
+    }).then(ajax('/getUrls', 'GET').then(function (data){
+       if(refreshNeeded == true)
+       location.reload();
+      }));
+
+  }
+  //location.reload();
     //////////////////////////////////////////////
 
 function logoutClicked(){
   $.get("/logout",function(data){
     window.location = data.redirect;
   });
-  return false;             
+  return false;
 }
 function uploadClicked(){
     $.ajax({
@@ -168,7 +201,25 @@ function uploadClicked(){
           else{
             alert("upload successful to room " + $('#location').val());
           }
+          $.ajax({
+              url : "/getUrls",
+              type: "GET",
+              success : function (data) {
+                $('#allURL').empty();
+                if(data.URLs){
+                  for(let i = 0; i < data.URLs.length; i++){
+                    data.URLs[i] = data.URLs[i].substring(0,10) + " : " + data.URLs[i].substring(11);
+                    $('#allURL').append("<p>" + data.URLs[i] + "</p>");
+                  }
+                }
+              }
+            });
         }
     });
   return false;
 }
+function ajax(options) {
+  return new Promise(function(resolve, reject) {
+    $.ajax(options).done(resolve).fail(reject);
+  });
+} //promise function https://www.stephanboyer.com/post/107/fun-with-promises-in-javascript

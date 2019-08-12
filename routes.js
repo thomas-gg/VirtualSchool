@@ -5,13 +5,6 @@ var passport = require("passport");
 var User = require("./models/user");
 
 var router = express.Router();
-var teachers = [];
-var amntOfTeachers = 0;
-for (var i = 0; i < 10; i++){
-  for (var w = 1; w < 10; w++)
-  teachers[amntOfTeachers] = "teacher" + w + "0" + i + "";
-  amntOfTeachers ++;
-}
 
 //function ensureAuthenticated(req, res, next) {
 //  if (req.isAuthenticated()) {
@@ -47,38 +40,38 @@ function initIdent(){
             ident = user[i].ident;
         }
       }
-    });    
+    });
   }
 }
 
 router.get("/successroot", function(req, res) {
 console.log("get successroot");
-	res.json({redirect:"/login"});	
+	res.json({redirect:"/login"});
 });
 
 router.get("/failroot", function(req, res) {
 console.log("get failroot");
-	res.json({redirect:"/login"});	
+	res.json({redirect:"/login"});
 });
 
 router.get("/successsignup", function(req, res) {
 console.log("get successsignup");
     if (req.user.username == "admin")
     {
-      res.json({redirect:"/adminsession"});      
+      res.json({redirect:"/adminsession"});
     }
     else if(req.user.username.includes("teacher")){
       res.json({redirect:"/teachersession"});
     }
     else
     {
-      res.json({redirect:"/session"});    
+      res.json({redirect:"/session"});
     }
 });
 
 router.get("/failsignup", function(req, res) {
 console.log("get failsignup");
-	res.json({redirect:"/login"});	
+	res.json({redirect:"/login"});
 });
 
 router.get("/successlogin", function(req, res) {
@@ -86,28 +79,28 @@ console.log("get successlogin");
 
     if (req.user.username == "admin")
     {
-      res.json({redirect:"/adminsession"});      
+      res.json({redirect:"/adminsession"});
     }
     else if(req.user.username.includes("teacher")){
       res.json({redirect:"/teachersession"});
     }
     else
     {
-      res.json({redirect:"/session"});    
+      res.json({redirect:"/session"});
     }
   console.log("end of successlogin");
 });
 router.get("/faillogin", function(req, res) {
 console.log("get faillogin");
-	res.json({redirect:"/login"});	
+	res.json({redirect:"/login"});
 
 });
 
 router.get("/newFiles", function(req, res, next) {
 console.log("get root");
 
-	let thePath = path.resolve(__dirname,"public/views/login.html");		
-	res.sendFile(thePath);	
+	let thePath = path.resolve(__dirname,"public/views/login.html");
+	res.sendFile(thePath);
 
 });
 
@@ -115,49 +108,49 @@ router.get("/signup", function(req, res) {
 console.log("get signup");
   initIdent();
 
-	let thePath = path.resolve(__dirname,"public/views/signup.html");		
-	res.sendFile(thePath);	
+	let thePath = path.resolve(__dirname,"public/views/signup.html");
+	res.sendFile(thePath);
 
 });
 
 router.get("/login", function(req, res) {
 console.log("get login");
 
-	let thePath = path.resolve(__dirname,"public/views/login.html");		
-	res.sendFile(thePath);	
+	let thePath = path.resolve(__dirname,"public/views/login.html");
+	res.sendFile(thePath);
 
 });
 
 router.get("/adminsession", function(req, res) {
   console.log("get adminsession");
   if (req.isAuthenticated()) {
-       let thePath = path.resolve(__dirname,"public/views/adminSession.html");   
-       res.sendFile(thePath); 
+       let thePath = path.resolve(__dirname,"public/views/adminSession.html");
+       res.sendFile(thePath);
   } else {
-    let thePath = path.resolve(__dirname,"public/views/login.html");    
-  res.sendFile(thePath);  
+    let thePath = path.resolve(__dirname,"public/views/login.html");
+  res.sendFile(thePath);
   }
 });
 
 router.get("/teachersession", function(req, res) {
   console.log("get teachersession");
   if (req.isAuthenticated()) {
-       let thePath = path.resolve(__dirname,"public/views/teacherSession.html");   
-       res.sendFile(thePath); 
+       let thePath = path.resolve(__dirname,"public/views/teacherSession.html");
+       res.sendFile(thePath);
   } else {
-    let thePath = path.resolve(__dirname,"public/views/login.html");    
-  res.sendFile(thePath);  
+    let thePath = path.resolve(__dirname,"public/views/login.html");
+  res.sendFile(thePath);
   }
 });
 
 router.get("/session", function(req, res) {
   console.log("get session");
   if (req.isAuthenticated()) {
-	     let thePath = path.resolve(__dirname,"public/views/userSession.html");		
-	     res.sendFile(thePath);	
+	     let thePath = path.resolve(__dirname,"public/views/userSession.html");
+	     res.sendFile(thePath);
   } else {
-  	let thePath = path.resolve(__dirname,"public/views/login.html");		
-	res.sendFile(thePath);	
+  	let thePath = path.resolve(__dirname,"public/views/login.html");
+	res.sendFile(thePath);
   }
 });
 
@@ -181,7 +174,7 @@ router.get("/adminInfo",function(req,res){
             });
         }
         else
-          res.json(null);          
+          res.json(null);
   }
   else {
     res.json(null);
@@ -268,7 +261,7 @@ console.log("post signup");
     var newUser = new User({
       username: username,
       password: password,
-      url: "http://mvhs.vistausd.org/",
+      url: "https://mvhs.vistausd.org/",
       ident: ident
     });
     newUser.save(next);    //this line has to be called.
@@ -288,6 +281,25 @@ router.post("/login", passport.authenticate("login", {
   failureRedirect: "/faillogin",
   failureFlash: true
 }));
+
+
+
+router.post('/changepsw', function(req, res){
+  console.log(req.body.password);
+    if (req.isAuthenticated()) {
+      if(req.body.password === req.body.confirmpassword) {
+        User.findOne({ username: req.body.username }, function(err, user) {
+          if (err) { return (err); }
+          user.password = req.body.password;
+          user.save(function(err) {
+            if(err) { return (err); }
+          });
+        });
+      }
+    }
+});
+
+
 /*
 var noop = function() {};
 

@@ -1,7 +1,7 @@
 
 
 
- 		
+
   		function userClicked(){
 
           if ($("#username").val() == "" || $("#psw").val() == "")
@@ -18,7 +18,7 @@
     		}
 
 
-  		$(document).ready(function(){ 
+  		$(document).ready(function(){
 
         $("#username").keydown( function( event ) {
             if ( event.which === 13 ) {
@@ -27,7 +27,7 @@
               return false;
             }
         });
-        
+
         $("#psw").keydown( function( event ) {
             if ( event.which === 13 ) {
               userClicked();
@@ -36,8 +36,19 @@
             }
         });
 
+        $("#submit").click(function () {
+          userClicked();
+          event.preventDefault();
+          return false;
+        });
 
-  		});  		
-    
+  //      $("#submit").click(function()) {
+  //        alert("hello youy lcick this fucking button");
+  //        if ( event.which === 2) {
+  //          userClicked();
+  //          event.preventDefault();
+  //          return false;
+  //        }
+  //      });
 
-
+  		});
