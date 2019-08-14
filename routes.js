@@ -46,12 +46,12 @@ function initIdent(){
 
 router.get("/successroot", function(req, res) {
 console.log("get successroot");
-	res.json({redirect:"/login"});
+  res.json({redirect:"/login"});
 });
 
 router.get("/failroot", function(req, res) {
 console.log("get failroot");
-	res.json({redirect:"/login"});
+  res.json({redirect:"/login"});
 });
 
 router.get("/successsignup", function(req, res) {
@@ -71,7 +71,7 @@ console.log("get successsignup");
 
 router.get("/failsignup", function(req, res) {
 console.log("get failsignup");
-	res.json({redirect:"/login"});
+  res.json({redirect:"/login"});
 });
 
 router.get("/successlogin", function(req, res) {
@@ -92,15 +92,15 @@ console.log("get successlogin");
 });
 router.get("/faillogin", function(req, res) {
 console.log("get faillogin");
-	res.json({redirect:"/login"});
+  res.json({redirect:"/login"});
 
 });
 
 router.get("/newFiles", function(req, res, next) {
 console.log("get root");
 
-	let thePath = path.resolve(__dirname,"public/views/login.html");
-	res.sendFile(thePath);
+  let thePath = path.resolve(__dirname,"public/views/login.html");
+  res.sendFile(thePath);
 
 });
 
@@ -108,16 +108,16 @@ router.get("/signup", function(req, res) {
 console.log("get signup");
   initIdent();
 
-	let thePath = path.resolve(__dirname,"public/views/signup.html");
-	res.sendFile(thePath);
+  let thePath = path.resolve(__dirname,"public/views/signup.html");
+  res.sendFile(thePath);
 
 });
 
 router.get("/login", function(req, res) {
 console.log("get login");
 
-	let thePath = path.resolve(__dirname,"public/views/login.html");
-	res.sendFile(thePath);
+  let thePath = path.resolve(__dirname,"public/views/login.html");
+  res.sendFile(thePath);
 
 });
 
@@ -146,11 +146,11 @@ router.get("/teachersession", function(req, res) {
 router.get("/session", function(req, res) {
   console.log("get session");
   if (req.isAuthenticated()) {
-	     let thePath = path.resolve(__dirname,"public/views/userSession.html");
-	     res.sendFile(thePath);
+       let thePath = path.resolve(__dirname,"public/views/userSession.html");
+       res.sendFile(thePath);
   } else {
-  	let thePath = path.resolve(__dirname,"public/views/login.html");
-	res.sendFile(thePath);
+    let thePath = path.resolve(__dirname,"public/views/login.html");
+  res.sendFile(thePath);
   }
 });
 
@@ -202,11 +202,11 @@ function initAdmin(req,res) {
 */
 router.get("/userInfo",function(req,res){
   if (req.isAuthenticated()) {
-      res.json({username:req.user.username,url:req.user.url});
-	}
-	else {
-		res.json(null);
-	}
+      res.json({username:req.user.username,url:req.user.url, title: req.user.title});
+  }
+  else {
+    res.json(null);
+  }
 });
 
 router.get("/logout", function(req, res) {
@@ -262,6 +262,7 @@ console.log("post signup");
       username: username,
       password: password,
       url: "https://mvhs.vistausd.org/",
+      title: "",
       ident: ident
     });
     newUser.save(next);    //this line has to be called.
@@ -285,43 +286,30 @@ router.post("/login", passport.authenticate("login", {
 
 
 router.post('/changepsw', function(req, res){
-  console.log(req.body.password);
+  let error = 0;
     if (req.isAuthenticated()) {
-      if(req.body.password === req.body.confirmpassword) {
+
+      if(req.body.password.length==0 || req.body.confirmpassword.length==0) {
+        error = 1;
+      }
+
+      if(!(req.body.password === req.body.confirmpassword)) {
+        error = 2;
+      }
+
+      if(error == 0) {
         User.findOne({ username: req.body.username }, function(err, user) {
           if (err) { return (err); }
+          console.log(user.password);
           user.password = req.body.password;
           user.save(function(err) {
             if(err) { return (err); }
           });
         });
       }
+      res.json({error:error});
     }
 });
 
 
-/*
-var noop = function() {};
-
-router.post('/changepsw', function(req, res){
-    if (req.isAuthenticated()) {
-        bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-        if (err) { return done(err); }
-                User.findOneAndUpdate({ident:req.user.ident},{password:req.user.password},function(error,info) {
-                this.checkPassword(req.body.password,done);
-              });
-    });
-  }
-});
-*/
 module.exports = router;
-/*
-bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-    if (err) { return done(err); }
-    bcrypt.hash(user.password, salt, noop, function(err, hashedPassword) {
-      if (err) { return done(err); }
-      user.password = hashedPassword;
-      done();
-    });
-  });
-  */

@@ -9,6 +9,7 @@ $(document).ready(function() {
       $("#logout").click(logoutClicked);
       $("#submit").click(submitClicked);
       $("#resetPassword").click(resetPasswordClicked);
+      $("#uploadTitle").click(uploadTitleClicked);
 
       var retVal = "";
       var datafiles = [];
@@ -21,6 +22,8 @@ $(document).ready(function() {
           $("#currURL").text(data.url);
           $("#location").text(data.username.substring(7));
           $("#locationNumber").text("Uploading to Room " + data.username.substring(7));
+          console.log("curr title is " + data.title);
+          $("#currTitle").text(data.title);
 
           retVal = data.username;
           console.log("ret val " + retVal);
@@ -145,16 +148,20 @@ function submitClicked(){
 
 //////////////////////////////////////////////
     function resetPasswordClicked () {
-      alert("password:" + $("#psw").val() + "and confirmpassword: " + $("#confirmpsw").val())
       $.ajax({
         url : "/changepsw",
         type : "POST",
         data : {username: "teacher" + $('#location').text() , password:$("#psw").val(), confirmpassword:$("#confirmpsw").val()},
         success : function (data) {
-          if(!data)
-            alert("bad reset");
-          else
-            alert("good reset");
+          if(data.error == 0) {
+            alert("Password successfully reset.")
+          }
+          else if(data.error == 1) {
+            alert("Reset unsuccessful, Password cannot be set as nothing.")
+          }
+          else if(data.error == 2) {
+            alert("Reset unsuccessful, Passwords do not match.")
+          }
         }
       });
       location.reload();
@@ -179,6 +186,24 @@ function uploadClicked(){
           }
           else{
             alert("upload successful to room " + $('#location').val());
+          }
+        }
+    });
+    location.reload();//reload the page
+  return false;
+}
+
+function uploadTitleClicked(){
+    $.ajax({
+        url : "/setLocationTitle",
+        type: "POST",
+        data : {username: "teacher" + $('#location').text(), title:$('#title').val()},
+        success : function (data) {
+          if(data.error == 0){
+            alert("Title successfully uploaded");
+          }
+          else if (data.error == 1){
+            alert("Upload unsuccessful, Title cannot be set as nothing");
           }
         }
     });
