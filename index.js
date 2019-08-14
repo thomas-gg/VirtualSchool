@@ -111,6 +111,7 @@ app.post('/createTeachers', function (req, res,next){
               username: "teacher" + req.body.teacherNum,
               password: req.body.teacherNum,
               url: "https://mvhs.vistausd.org/",
+              title: "",
               ident: req.body.teacherNum});
           newUser.save(next);
         }
