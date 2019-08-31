@@ -38,6 +38,7 @@
           <input type="file" id="real-file" hidden="hidden" name = "filetoupload"/>
           <button type="button" id="custom-button">CHOOSE A FILE</button>
           <span id="custom-text">No file chosen, yet.</span>
+          <p class = "uploadSupport-hint">Supported Formats include: JPEG, jpg, JPG, png, PNG, gif, GIF, wav, WAV, mov, MOV, MP4, mp4</p>
         </div><br>
         <div class="totalCaption">
           <label for="caption" class="caption"> Write a caption: </label>
@@ -52,19 +53,20 @@
       <div class="uploadTitleContent">
         <p class = "uploadTitleCntxt">Upload the title(s) to appear above your door</p>
         <p class = "uploadTitleHint">(If you are uploading multiple titles, be sure to put a comma in between)<p><br>
-          <input type = "text" id = "titles">
+          <input type = "text" id = "title">
           <input type = "button" class = "upload-url" id = "uploadTitle" value = "Upload"><br>
-          <p class="currentURL">Current Title(s):<span id="currTitle"> </span></p>
+          <p class="currentURL">Current Title(s): <span id="currTitle"></span></p>
       </div>
     </div>
   </div>
   <hr><br>
     <div class = "table-display">
+      <p class = "collapse-hint">*Click "Media" on the table to collapse</p>
       <p class = "media-in-classroom">Media in Your Classroom</p>
       <table id = "approvedMedia" class = "content-table">
         <thead>
           <tr>
-            <th><label for="media">Media</label><input type="checkbox" id = "media" data-toggle="toggle"></th>
+            <th><label for="media" class = "label-media">Media</label><input type="checkbox" id = "media" data-toggle="toggle"></th>
             <th>Caption</th>
             <th>Text File Name</th>
             <th>Media File Name</th>
@@ -79,22 +81,17 @@
       <br>
       <input id = "rejectSubmission" class = "submit-changes" type="submit" value = "Submit Changes">
     </div><br>
-    <hr>
-
-      <div class = "passwordreset-flex">
+    <div class = "passwordreset-flex">
       <div class = "reset-flex-item">
         <p class = "resetTitle">Reset Password</p>
-        <p class="login">New Password</p>
-        <input id="psw" type="password" placeholder="Enter Password">
-        <p class="login">Confirm Password</p>
-        <input id="confirmpsw" type="password" placeholder="Enter Password again">
-        <button type="button" class = "submit-button" id = "resetPassword">Reset</button>
+        <p class="password">New Password: </p>
+        <input id="psw" class = "psw" type="password" placeholder="Enter Password">
+        <p class="cnfrm-password">Confirm Password: </p>
+        <input id="confirmpsw" class = "confirmpsw" type="password" placeholder="Confirm Password">
+        <button type="button" class = "reset-button" id = "resetPassword">Reset</button>
       </div>
     </div>
-      <hr>
-
-
-
+    <br><hr>
     <div class = "logout-flex">
       <input type = "button" id = "logout" class = "logout-button" value = "Logout">
     </div>

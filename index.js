@@ -1,4 +1,3 @@
-//Created By Thomas Garry, Austin LaChance, and Daniel Dyerly
 var express = require("express");
 var bodyParser = require('body-parser');
 var app = express();
@@ -69,6 +68,28 @@ app.post('/setLocationURL', function (req, res){
   res.json({error:error});
 });
 ///////////////////////////////////////////////////////////
+app.post('/setLocationTitle', function (req, res){
+  var error = 0;
+  if(req.isAuthenticated) {
+    var TITLEL = JSON.stringify(req.body.title);
+    TITLEL = TITLEL.substring(1, TITLEL.length-1);
+
+    if(TITLEL.length==0) {
+      error = 1;
+    }
+
+    if(error == 0) {
+      User.findOne({ username: req.body.username }, function(err, user) {
+        if (err) { return (err); }
+        user.title = TITLEL;
+        user.save(function(err) {
+          if(err) { return (err); }
+        });
+      });
+    }
+    res.json({error:error});
+  }
+});
 ////////////////////////////////////////////////////////////
 app.post('/createTeachers', function (req, res,next){
   let error = 0;
@@ -90,6 +111,7 @@ app.post('/createTeachers', function (req, res,next){
               username: "teacher" + req.body.teacherNum,
               password: req.body.teacherNum,
               url: "https://mvhs.vistausd.org/",
+              title: "title",
               ident: req.body.teacherNum});
           newUser.save(next);
         }
@@ -165,6 +187,19 @@ app.get("/getUrls",function(req,res) {
         }
       }
       return res.json({URLs:URLs});
+    });
+});
+
+app.get("/getTitles",function(req,res) {
+    var holderStr = "";
+    var TITLEs = [];
+    User.find({},function(err,user) {
+      if (!err) {
+        for(var i = 1; i < user.length; i++){
+          TITLEs.push(user[i].username + '_' +user[i].title);
+        }
+      }
+      return res.json({TITLEs:TITLEs});
     });
 });
 

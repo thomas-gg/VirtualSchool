@@ -143,16 +143,20 @@ function deleteClicked(){
 }
 /////////////////////////////////////////////
 function resetPasswordClicked () {
-  alert("password:" + $("#psw").val() + "and confirmpassword: " + $("#confirmpsw").val())
   $.ajax({
     url : "/changepsw",
     type : "POST",
-    data : {username: "admin", password:$("#psw").val(), confirmpassword:$("#confirmpsw").val()},
+    data : {username: "admin" , password:$("#psw").val(), confirmpassword:$("#confirmpsw").val()},
     success : function (data) {
-      if(!data)
-        alert("bad reset");
-      else
-        alert("good reset");
+      if(data.error == 0) {
+        alert("Password successfully reset.")
+      }
+      else if(data.error == 1) {
+        alert("Reset unsuccessful, Password cannot be set as nothing.")
+      }
+      else if(data.error == 2) {
+        alert("Reset unsuccessful, Passwords do not match.")
+      }
     }
   });
   location.reload();

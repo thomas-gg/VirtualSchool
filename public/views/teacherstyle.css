@@ -145,7 +145,8 @@ body {
 
 .totalCaption {
   position: relative;
-  top: -25px;
+  top: -85px;
+  z-index: 1;
 }
 
 #custom-button {
@@ -168,6 +169,16 @@ body {
   margin-left: 10px;
   font-family: sans-serif;
   color: #aaa;
+}
+
+.flex-item p.uploadSupport-hint {
+  font-size: 15px;
+  color: darkgrey;
+  text-align: center;
+  width: 500px;
+  position:relative;
+  left: -50px;
+  z-index: 2;
 }
 
 .submit-button {
@@ -235,6 +246,13 @@ textarea {
   padding: 10px 10px;
 }
 
+.collapse-hint {
+  position: absolute;
+  font-size: 15px;
+  color: #000;
+  font-weight: bold;
+}
+
 .table-display p.media-in-classroom {
   font-size: 30px;
   font-weight: bold;
@@ -298,7 +316,12 @@ textarea {
 [data-toggle="toggle"] {
 	display: none;
 }
-/*
+
+.label-media:hover {
+  text-decoration: underline;
+  font-size: 16px;
+}
+
 .passwordreset-flex {
   width: 100%;
   display: flex;
@@ -306,10 +329,9 @@ textarea {
 }
 
 .reset-flex-item {
-  padding: 5px;
+  padding: 10px;
   width: 600px;
-  height: 300px;
-  margin: 35px;
+  height: 220px;
   line-height: 50px;
   color: black;
   background-color: white;
@@ -320,12 +342,66 @@ textarea {
   text-align: left;
 }
 
-.resetTitle {
+.reset-flex-item p.resetTitle {
+  position: relative;
+  top: -35px;
   text-align: center;
   text-decoration: underline;
   font-size: 30px;
 }
-*/
+
+.reset-flex-item p.password {
+  position: relative;
+  top: -70px;
+  font-size: 20px;
+}
+
+.reset-flex-item input[type=password].psw {
+  top: -110px;
+  width: 70%;
+  padding: 8px 14px;
+  margin: 2px 0px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.reset-flex-item p.cnfrm-password {
+  position: relative;
+  top: -120px;
+  font-size: 20px;
+}
+
+.reset-flex-item input[type=password].confirmpsw {
+  top: -160px;
+  width: 70%;
+  padding: 8px 14px;
+  margin: 2px 0px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.reset-flex-item .reset-button {
+  top: -160px;
+  left: 80px;
+  padding: 5px 15px;
+  font-size: 20px;
+  color: white;
+  background-color: darkgreen;
+  border: 2px solid #000;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.reset-flex-item .reset-button:hover {
+  background-color: #00b28f;
+}
 
 .logout-flex {
   width: 100%;
