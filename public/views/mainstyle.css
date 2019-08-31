@@ -27,10 +27,11 @@ p.welcome-text {
   border: 2px solid #fff;
 }
 
+
 .info-content {
   padding: 0 18px;
-  left: 75%;
-  top: 350px;
+  left: 85%;
+  top: 25%;
   width: 250px;
   height: 400px;
   overflow: hidden;
