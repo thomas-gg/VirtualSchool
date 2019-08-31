@@ -23,7 +23,11 @@ $(document).ready(function() {
           $("#location").text(data.username.substring(7));
           $("#locationNumber").text("Uploading to Room " + data.username.substring(7));
           console.log("curr title is " + data.title);
-          $("#currTitle").text(data.title);
+          if(data.title != "title") {
+            $("#currTitle").text(data.title);
+          }
+
+
 
           retVal = data.username;
           console.log("ret val " + retVal);
