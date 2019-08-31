@@ -30,13 +30,11 @@ p.welcome-text {
 .info-content {
   padding: 0 18px;
   left: 75%;
-  top: 200px;
+  top: 350px;
   width: 250px;
   height: 400px;
   overflow: hidden;
   position: absolute;
-  top: 15%;
-  left: 101%;
   background-color: darkgrey;
   border: 2px solid black;
   border-radius: 5px;
