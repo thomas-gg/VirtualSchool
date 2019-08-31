@@ -30,8 +30,8 @@ p.welcome-text {
   padding: 0 18px;
   left: 75%;
   top: 200px;
-  width: 200px;
-  height: 300px;
+  width: 250px;
+  height: 400px;
   display: none;
   overflow: hidden;
   position: absolute;
@@ -45,6 +45,7 @@ p.welcome-text {
   font-size: 15px;
   text-align: left;
 }
+
 .game-container {
     width: 940px;
     height: 640px;
