@@ -27,20 +27,6 @@ p.welcome-text {
   border: 2px solid #fff;
 }
 
-
-.info-content {
-  padding: 0 18px;
-  left: 1550px;
-  top: 30%;
-  width: 250px;
-  height: 450px;
-  overflow: hidden;
-  position: absolute;
-  background-color: darkgrey;
-  border: 2px solid black;
-  border-radius: 5px;
-}
-
 .info-content p {
   color: black;
   font-size: 17px;
@@ -54,6 +40,19 @@ p.welcome-text {
     background-color: white;
     border: 3px solid #000;
     border-radius: 20px;
+    position:relative;
+}
+
+.game-container #content {
+  padding: 0 18px;
+  left: 960px;
+  width: 250px;
+  height: 450px;
+  overflow: hidden;
+  position: absolute;
+  background-color: darkgrey;
+  border: 2px solid black;
+  border-radius: 5px;
 }
 
 #gameContainer {
@@ -61,6 +60,7 @@ p.welcome-text {
   left: 20px;
   top: 20px;
 }
+
 
 /*
 .login {
