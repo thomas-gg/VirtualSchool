@@ -37,7 +37,7 @@ $(document).ready(function() {
         for(var i = 0 ; i < datafiles.length ; i++) {
                   if(datafiles[i].includes("txt")) {
                     for(var w = 0 ; w < datafiles.length ; w++) {
-                      if(!datafiles[w].includes("txt") && datafiles[i].includes(datafiles[w].substring(0,datafiles[w].indexOf("."))) && datafiles[i].includes(retVal.substring(7)))
+                      if(!datafiles[w].includes("txt") && datafiles[i].includes(datafiles[w].substring(0,datafiles[w].indexOf("."))) && datafiles[i].substring(0,3) == retVal.substring(7))
                       captionToTextPost(datafiles[i],datafiles[w],datafiles[i],datafiles[w]);
                     }
                   }
