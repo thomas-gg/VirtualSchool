@@ -143,6 +143,12 @@ body {
   top: 15px;
 }
 
+#currURL {
+  font-size: 17px;
+  width: 100%;
+  max-width: 400px;
+}
+
 .totalCaption {
   position: relative;
   top: -85px;
