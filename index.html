@@ -17,6 +17,7 @@
     </script>
   </head>
   <body>
+    <p id = "warning">VirtualTour may take time to Load<p>
       <div class="webgl-content center">
         <p class = "welcome-text">Welcome To Mission Vista High</p>
         <hr>
@@ -30,6 +31,7 @@
           <p>Space - Jump</p>
           <p>Esc - Show Cursor</p>
           <p>Left click on Doors to view them</p>
+          <p>Backspace - Removes Current Content</p>
           <p>Z - Pause Video</p>
           <p>X - Skip Ahead in Video</p>
           <p>C - Skip Back in Video</p>
@@ -46,6 +48,11 @@
         <p class = "creators">Created by Thomas Garry, Austin LaChance, and Danny Dyerly</p>
         <p class = "class">Class of 2019</p>
       </div>
+      <script>
+       $(document).ready(function() { 
+          $("#warning").hide(5)
+        });
+      </script>
    </body>
 
 </html>
