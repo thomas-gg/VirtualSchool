@@ -273,6 +273,7 @@ app.post('/fileUpload', function (req, res){
   console.log("hello dear");
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files){
+      files.filetoupload.name = files.filetoupload.name.replace(" ", "_");
       var oldPath = files.filetoupload.path;
       var newPath =  __dirname + '/uploadSettings/approval/mediaPostApproval/' + location + "_" + files.filetoupload.name;
       mv(oldPath, newPath, function (err) {
