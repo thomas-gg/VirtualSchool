@@ -1,54 +1,32 @@
-
-
-
-
-  		function userClicked(){
-
-          if ($("#username").val() == "" || $("#psw").val() == "")
-          {
-            alert("bad login");
-            return false;
-          }
-          $.post("/login",{username:$("#username").val(), password:$("#psw").val()},function(data)
-{
-		window.location = data.redirect;
+function userClicked(){
+    if ($("#username").val() == "" || $("#psw").val() == "")
+    {
+      alert("bad login");
+      return false;
+    }
+    $.post("/login",{username:$("#username").val(), password:$("#psw").val()},function(data){
+      window.location = data.redirect;
+    });
+  return false;
+}
+$(document).ready(function(){
+  $("#username").keydown( function( event ) {
+      if ( event.which === 13 ) {
+        userClicked();
+        event.preventDefault();
+        return false;
+      }
+  });
+  $("#psw").keydown( function( event ) {
+      if ( event.which === 13 ) {
+        userClicked();
+        event.preventDefault();
+        return false;
+      }
+  });
+  $("#submit").click(function () {
+    userClicked();
+    event.preventDefault();
+    return false;
+  });
 });
-
-    			return false;
-    		}
-
-
-  		$(document).ready(function(){
-
-        $("#username").keydown( function( event ) {
-            if ( event.which === 13 ) {
-              userClicked();
-              event.preventDefault();
-              return false;
-            }
-        });
-
-        $("#psw").keydown( function( event ) {
-            if ( event.which === 13 ) {
-              userClicked();
-              event.preventDefault();
-              return false;
-            }
-        });
-
-        $("#submit").click(function () {
-          userClicked();
-          event.preventDefault();
-          return false;
-        });
-
-  //      $("#submit").click(function()) {
-  //        alert("hello youy lcick this fucking button");
-  //        if ( event.which === 2) {
-  //          userClicked();
-  //          event.preventDefault();
-  //          return false;
-  //        }
-  //      });
-
-  		});

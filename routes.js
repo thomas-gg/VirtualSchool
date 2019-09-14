@@ -65,7 +65,8 @@ console.log("get successsignup");
     }
     else
     {
-      res.json({redirect:"/session"});
+      //res.json({redirect:"/session"});
+      res.json({redirect:"/login"});
     }
 });
 
@@ -142,7 +143,7 @@ router.get("/teachersession", function(req, res) {
   res.sendFile(thePath);
   }
 });
-
+/*
 router.get("/session", function(req, res) {
   console.log("get session");
   if (req.isAuthenticated()) {
@@ -153,7 +154,7 @@ router.get("/session", function(req, res) {
   res.sendFile(thePath);
   }
 });
-
+*/
 router.get("/adminInfo",function(req,res){
 
   if (req.isAuthenticated()) {

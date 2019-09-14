@@ -178,6 +178,9 @@ function teacherButtonClicked(){
       else if (data.error == 2){
         alert("Invalid Entry. Make sure only 3 numbers are inputted.");
       }
+      else if (data.error == 3){
+        alert("Invalid Entry. Only GYMA, GYMB, GYMC, GYMD, ADMA, etc. may be submitted");
+      }
     }).then(ajax('/getUrls', 'GET').then(function (data){
        if(refreshNeeded == true)
        location.reload();
