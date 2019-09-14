@@ -273,7 +273,7 @@ app.post('/fileUpload', function (req, res){
   console.log("hello dear");
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files){
-      while(files.filetoupload.name.contains("_")){
+      while(files.filetoupload.name.includes("_")){
         files.filetoupload.name = files.filetoupload.name.replace(" ", "_");
       } 
       var oldPath = files.filetoupload.path;
