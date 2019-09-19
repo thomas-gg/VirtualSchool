@@ -100,7 +100,7 @@ app.post('/createTeachers', function (req, res,next){
           error = 2;
           console.log(req.body.teacherNum.length);
         }
-        else if(isNaN(req.body.teacherNum.substring(0,3)) && !(req.body.teacherNum.substring(0,3) === "GYM")){
+        else if(isNaN(req.body.teacherNum.substring(0,3)) && !(req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(0,3) === "STG")){
           error = 3; //if it's NaN but is not the Gym
         }
         else if(isNaN(req.body.teacherNum.substring(0,3)) && (req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(3)==="A") && !(req.body.teacherNum.substring(3)==="B")&& !(req.body.teacherNum.substring(3)==="C")&& !(req.body.teacherNum.substring(3)==="D")){
