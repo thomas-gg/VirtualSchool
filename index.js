@@ -113,28 +113,33 @@ app.post('/createTeachers', function (req, res,next){
         }
         if(error == 0){
           let identi = req.body.teacherNum;
-          if(!(req.body.teacherNum.substring(0,3) === "GYM")){
-            if(identi.substring(3) === "A")
-              identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 1);
-            else if(identi.substring(3) === "B")
-              identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 2);
-            else if(identi.substring(3) === "C")
-              identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 3);
-            else if(identi.substring(3) === "D")
-              identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 4);
-            //above code is to make a unique ID because otherwise both A and B will have the same id
-          } 
-          else if ((req.body.teacherNum.substring(0,3) === "GYM")) {
-            if(identi.substring(3) === "A")
-              identi = "0001";
-            else if(identi.substring(3) === "B")
-              identi = "0002";
-            else if(identi.substring(3) === "C")
-              identi = "0003";
-            else if(identi.substring(3) === "D")
-              identi = "0004";
-            else
-              identi = "0000"
+          if(req.body.teacherNum.substring(0,3) === "STG"){
+            identi = "0005"
+          }
+          else{
+            if(!(req.body.teacherNum.substring(0,3) === "GYM")){
+              if(identi.substring(3) === "A")
+                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 1);
+              else if(identi.substring(3) === "B")
+                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 2);
+              else if(identi.substring(3) === "C")
+                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 3);
+              else if(identi.substring(3) === "D")
+                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 4);
+              //above code is to make a unique ID because otherwise both A and B will have the same id
+            } 
+            else if ((req.body.teacherNum.substring(0,3) === "GYM")) {
+              if(identi.substring(3) === "A")
+                identi = "0001";
+              else if(identi.substring(3) === "B")
+                identi = "0002";
+              else if(identi.substring(3) === "C")
+                identi = "0003";
+              else if(identi.substring(3) === "D")
+                identi = "0004";
+              else
+                identi = "0000"
+            }
           }
           var newUser = new User({
               username: "teacher" + req.body.teacherNum,
