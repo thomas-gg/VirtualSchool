@@ -116,10 +116,10 @@ app.post('/createTeachers', function (req, res,next){
         if(error == 0){
           let identi = req.body.teacherNum;
           if(req.body.teacherNum.substring(0,3) === "STG"){
-            identi = "0005"
+            identi = "0006"
           }
           else if(req.body.teacherNum.substring(0,3) === "TTR"){
-            identi = "0006"
+            identi = "0007"
           }
           else{
             if(!(req.body.teacherNum.substring(0,3) === "GYM")){
@@ -135,13 +135,13 @@ app.post('/createTeachers', function (req, res,next){
             } 
             else if ((req.body.teacherNum.substring(0,3) === "GYM")) {
               if(identi.substring(3) === "A")
-                identi = "0001";
-              else if(identi.substring(3) === "B")
                 identi = "0002";
-              else if(identi.substring(3) === "C")
+              else if(identi.substring(3) === "B")
                 identi = "0003";
-              else if(identi.substring(3) === "D")
+              else if(identi.substring(3) === "C")
                 identi = "0004";
+              else if(identi.substring(3) === "D")
+                identi = "0005";
               else
                 identi = "0000"
             }
