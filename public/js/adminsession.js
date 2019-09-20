@@ -40,7 +40,7 @@ $(document).ready(function() {
           success : function (data) {
             if(data.URLs){
               for(let i = 0; i < data.URLs.length; i++){
-                data.URLs[i] = data.URLs[i].substring(0,10) + " : " + data.URLs[i].substring(11);
+                data.URLs[i] = data.URLs[i].substring(0,data.URLs[i].indexOf("_")) + " : " + data.URLs[i].substring(data.URLs[i].indexOf("_")+1);
                 $('#allURL').append("<p class = 'URLS'>" + data.URLs[i] + "</p>");
               }
             }
