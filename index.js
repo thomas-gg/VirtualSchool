@@ -53,13 +53,15 @@ app.post('/setLocationURL', function (req, res){
   var error = false;
   var URLL = JSON.stringify(req.body.URLL);
   URLL = URLL.substring(1,URLL.length-1);
+  console.log("URL = " + URLL);
   if(!(URLL.includes(".com")||URLL.includes(".org")||URLL.includes(".edu")||URLL.includes(".gov")||URLL.includes(".net")||URLL.includes(".biz")||URLL.includes(".info"))){
     error = true;
   }
   if (req.isAuthenticated()) {
       req.user.url = URLL;
+      console.log("ident is " + req.user.ident);
       User.findOneAndUpdate({ident:req.user.ident},{url:req.user.url},function(error,info) {
-
+          console.log("did this even happen");
       });
   }
   else {
