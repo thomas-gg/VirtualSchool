@@ -215,7 +215,7 @@ function uploadClicked(){
                 $('#allURL').empty();
                 if(data.URLs){
                   for(let i = 0; i < data.URLs.length; i++){
-                    data.URLs[i] = data.URLs[i].substring(0,data.URLs[i].indexOf("_")) + " : " + data.URLs[i].substring(11);
+                    data.URLs[i] = data.URLs[i].substring(0,data.URLs[i].indexOf("_")+1) + " : " + data.URLs[i].substring(11);
                     $('#allURL').append("<p>" + data.URLs[i] + "</p>");
                   }
                 }
