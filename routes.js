@@ -301,7 +301,6 @@ router.post('/changepsw', function(req, res){
       if(error == 0) {
         User.findOne({ username: req.body.username }, function(err, user) {
           if (err) { return (err); }
-          console.log(user.password);
           user.password = req.body.password;
           user.save(function(err) {
             if(err) { return (err); }
