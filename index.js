@@ -102,7 +102,7 @@ app.post('/createTeachers', function (req, res,next){
           error = 2;
           console.log(req.body.teacherNum.length);
         }
-        else if(isNaN(req.body.teacherNum.substring(0,3)) && !(req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(0,3) === "STG") && !(req.body.teacherNum.substring(0,3) === "TTR")&& !(req.body.teacherNum.substring(0,3) === "LIB")){
+        else if(isNaN(req.body.teacherNum.substring(0,3)) && !(req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(0,3) === "STG") && !(req.body.teacherNum.substring(0,3) === "TTR")&& !(req.body.teacherNum.substring(0,3) === "LIB")&& !(req.body.teacherNum.substring(0,3) === "DNC")){
           error = 3; //if it's NaN but is not the Gym
         }
         else if(isNaN(req.body.teacherNum.substring(0,3)) && (req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(3)==="A") && !(req.body.teacherNum.substring(3)==="B")&& !(req.body.teacherNum.substring(3)==="C")&& !(req.body.teacherNum.substring(3)==="D")){
@@ -123,6 +123,9 @@ app.post('/createTeachers', function (req, res,next){
           }
           else if(req.body.teacherNum.substring(0,3) === "LIB"){
             identi = "0008"
+          }
+          else if(req.body.teacherNum.substring(0,3) === "DNC"){
+            identi = "0009"
           }
           else{
             if(!(req.body.teacherNum.substring(0,3) === "GYM")){

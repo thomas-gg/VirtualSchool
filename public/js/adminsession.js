@@ -179,7 +179,7 @@ function teacherButtonClicked(){
         alert("Invalid Entry. Make sure only 3 numbers are inputted.");
       }
       else if (data.error == 3){
-        alert("Invalid Entry. Only GYMA, GYMB, GYMC, GYMD, STG, TTR, etc. may be submitted");
+        alert("Invalid Entry. Only GYMA, GYMB, GYMC, GYMD, STG, TTR, LIB, DNC, etc. may be submitted");
       }
     }).then(ajax('/getUrls', 'GET').then(function (data){
        if(refreshNeeded == true)
