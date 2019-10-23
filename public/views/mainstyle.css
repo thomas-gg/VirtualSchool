@@ -54,7 +54,18 @@ p.welcome-text {
   border: 2px solid black;
   border-radius: 5px;
 }
-
+.game-container #contentLeft{
+  padding: 0 18px;
+  top: 150px;
+  left: -325px;
+  width: 250px;
+  height: 450px;
+  overflow: hidden;
+  position: absolute;
+  background-color: darkgrey;
+  border: 2px solid black;
+  border-radius: 5px;
+}
 #gameContainer {
   position: relative;
   left: 20px;
