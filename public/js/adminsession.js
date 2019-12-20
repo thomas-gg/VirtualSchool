@@ -162,30 +162,36 @@ function resetPasswordClicked () {
   location.reload();
 }
 /////////////////////////////////////////////////
+
 function teacherButtonClicked(){
   let refreshNeeded = false;
   ajax({
     url : "/createTeachers",
     type: "POST",
-    data : {teacherNum:$("#teacherNum").val()}}).then(function(data){
+    data : {teacherNum:$("#teacherNum").val(),roomType:$( "#room-type option:selected" ).text()}}).then(function(data) {
       if (data.error == 0){
-        alert("Teacher successfully created.");
+        if(!($( "#room-type option:selected" ).text() == "single"))
+          alert("Teachers successfully created.");
+        else
+          alert("Teacher successfully created.");
         refreshNeeded = true;
       }
       else if (data.error == 1){
-        alert("Teacher already exists and was not created again.");
+        alert("Teacher(s) already exists and was not created again.");
       }
       else if (data.error == 2){
         alert("Invalid Entry. Make sure only 3 numbers are inputted.");
       }
       else if (data.error == 3){
-        alert("Invalid Entry. Only GYMA, GYMB, GYMC, GYMD, STG, TTR, LIB, DNC, CON, etc. may be submitted");
+        alert("Invalid Entry. Only GYM, STG, TTR, LIB, DNC, CON, etc. may be submitted");
+      }
+      else if(data.error == 4) {
+        alert("Invalid Entry. Please enter a room type");
       }
     }).then(ajax('/getUrls', 'GET').then(function (data){
        if(refreshNeeded == true)
        location.reload();
       }));
-
   }
   //location.reload();
     //////////////////////////////////////////////

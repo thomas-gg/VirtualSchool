@@ -139,8 +139,6 @@ input[type=text].URL-text {
   top: 40px;
 }
 
-
-
 .table-display {
   /*can set minimum height, but otherwise no need to state height*/
   background: #fff;
@@ -325,7 +323,7 @@ input[type=text].URL-text {
 }
 
 input[type=text].teacher-number {
-  left: 60px;
+  left: 25px;
   top: -85px;
   width: 70%;
   padding: 12px 20px;
@@ -336,6 +334,21 @@ input[type=text].teacher-number {
   box-sizing: border-box;
   position: relative;
 }
+
+
+#room-type {
+  top: -85px;
+  left: 30px;
+  padding: 2px 2px;
+  margin: 2px 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  position: relative;
+  height: 30px;
+  width: 100px;
+}
+
 
 .create-button {
   top: -70px;

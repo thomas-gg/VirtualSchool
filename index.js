@@ -95,7 +95,6 @@ app.post('/setLocationTitle', function (req, res){
 ////////////////////////////////////////////////////////////
 app.post('/createTeachers', function (req, res,next){
   let error = 0;
-
    User.find({},function(err,user) {
       if (!err) {
         if((req.body.teacherNum.length!=3 && req.body.teacherNum.length!=4)){
@@ -105,10 +104,13 @@ app.post('/createTeachers', function (req, res,next){
         else if(isNaN(req.body.teacherNum.substring(0,3)) && !(req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(0,3) === "STG") && !(req.body.teacherNum.substring(0,3) === "TTR")&& !(req.body.teacherNum.substring(0,3) === "LIB")&& !(req.body.teacherNum.substring(0,3) === "DNC")&& !(req.body.teacherNum.substring(0,3) === "CON")&& !(req.body.teacherNum.substring(0,3) === "ADN")){
           error = 3; //if it's NaN but is not the Gym
         }
-        else if(isNaN(req.body.teacherNum.substring(0,3)) && (req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(3)==="A") && !(req.body.teacherNum.substring(3)==="B")&& !(req.body.teacherNum.substring(3)==="C")&& !(req.body.teacherNum.substring(3)==="D")){
-          error = 3; //if it's NaN and is the Gym but doesn't end with ABCD
+        //else if(isNaN(req.body.teacherNum.substring(0,3)) && (req.body.teacherNum.substring(0,3) === "GYM") && !(req.body.teacherNum.substring(3)==="A") && !(req.body.teacherNum.substring(3)==="B")&& !(req.body.teacherNum.substring(3)==="C")&& !(req.body.teacherNum.substring(3)==="D")){
+        //  error = 3; //if it's NaN and is the Gym but doesn't end with ABCD
+      //  }
+        else if(req.body.roomType == "Room Type") {
+          error = 4;
         }
-        for(var i = 0; i < user.length; i++){
+        for(var i = 0; i < user.length; i++) {
           if(user[i].username == ("teacher" + req.body.teacherNum)){
             error = 1;
           }
@@ -116,55 +118,111 @@ app.post('/createTeachers', function (req, res,next){
         if(error == 0){
           let identi = req.body.teacherNum;
           if(req.body.teacherNum.substring(0,3) === "STG"){
-            identi = "0006"
+            var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0006"});
+            newUser.save(next);
           }
           else if(req.body.teacherNum.substring(0,3) === "TTR"){
-            identi = "0007"
+            var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0007"});
+            newUser.save(next);
           }
           else if(req.body.teacherNum.substring(0,3) === "LIB"){
-            identi = "0008"
+            var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0008"});
+            newUser.save(next);
           }
           else if(req.body.teacherNum.substring(0,3) === "DNC"){
-            identi = "0009"
+            var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0009"});
+            newUser.save(next);
           }
           else if(req.body.teacherNum.substring(0,3) === "CON"){
-            identi = "0010"
+            var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0010"});
+            newUser.save(next);
           }
           else if(req.body.teacherNum.substring(0,3) === "ADN"){
-            identi = "0010"
+            var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0011"});
+            newUser.save(next);
           }
           else{
             if(!(req.body.teacherNum.substring(0,3) === "GYM")){
-              if(identi.substring(3) === "A")
-                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 1);
-              else if(identi.substring(3) === "B")
-                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 2);
-              else if(identi.substring(3) === "C")
-                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 3);
-              else if(identi.substring(3) === "D")
-                identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 4);
+              if(req.body.roomType == "single") {
+                var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 1)});
+                newUser.save(next);
+              } else if(req.body.roomType == "double") {
+                var newUserA = new User({username: "teacher" + req.body.teacherNum + "a", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 1)});
+                newUserA.save(next);
+                var newUserB = new User({username: "teacher" + req.body.teacherNum + "b", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 2)});
+                newUserB.save(next);
+              } else if(req.body.roomType == "triple") {
+                var newUserA = new User({username: "teacher" + req.body.teacherNum + "a", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 1)});
+                newUserA.save(next);
+                var newUserB = new User({username: "teacher" + req.body.teacherNum + "b", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 2)});
+                newUserB.save(next);
+                var newUserC = new User({username: "teacher" + req.body.teacherNum + "c", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 3)});
+                newUserC.save(next);
+              } else if(req.body.roomType == "quad") {
+                var newUserA = new User({username: "teacher" + req.body.teacherNum + "a", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 1)});
+                newUserA.save(next);
+                var newUserB = new User({username: "teacher" + req.body.teacherNum + "b", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 2)});
+                newUserB.save(next);
+                var newUserC = new User({username: "teacher" + req.body.teacherNum + "c", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 3)});
+                newUserC.save(next);
+                var newUserD = new User({username: "teacher" + req.body.teacherNum + "d", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: parseInt(req.body.teacherNum.substring(0,3).toString() + 4)});
+                newUserD.save(next);
+              }
+              //if(identi.substring(3) === "A")
+            //    identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 1);
+            //  else if(identi.substring(3) === "B")
+            //    identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 2);
+            //  else if(identi.substring(3) === "C")
+            //    identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 3);
+            //  else if(identi.substring(3) === "D")
+            //    identi = parseInt(req.body.teacherNum.substring(0,3).toString() + 4);
               //above code is to make a unique ID because otherwise both A and B will have the same id
-            } 
+            }
             else if ((req.body.teacherNum.substring(0,3) === "GYM")) {
-              if(identi.substring(3) === "A")
-                identi = "0002";
-              else if(identi.substring(3) === "B")
-                identi = "0003";
-              else if(identi.substring(3) === "C")
-                identi = "0004";
-              else if(identi.substring(3) === "D")
-                identi = "0005";
-              else
-                identi = "0000"
+              if(req.body.roomType == "single") {
+                var newUser = new User({username: "teacher" + req.body.teacherNum, password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0002"});
+                newUser.save(next);
+              } else if(req.body.roomType == "double") {
+                var newUserA = new User({username: "teacher" + req.body.teacherNum + "a", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0002"});
+                newUserA.save(next);
+                var newUserB = new User({username: "teacher" + req.body.teacherNum + "b", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0003"});
+                newUserB.save(next);
+              } else if(req.body.roomType == "triple") {
+                var newUserA = new User({username: "teacher" + req.body.teacherNum + "a", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0002"});
+                newUserA.save(next);
+                var newUserB = new User({username: "teacher" + req.body.teacherNum + "b", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0003"});
+                newUserB.save(next);
+                var newUserC = new User({username: "teacher" + req.body.teacherNum + "c", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0004"});
+                newUserC.save(next);
+              } else if(req.body.roomType == "quad") {
+                var newUserA = new User({username: "teacher" + req.body.teacherNum + "a", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0002"});
+                newUserA.save(next);
+                var newUserB = new User({username: "teacher" + req.body.teacherNum + "b", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0003"});
+                newUserB.save(next);
+                var newUserC = new User({username: "teacher" + req.body.teacherNum + "c", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0004"});
+                newUserC.save(next);
+                var newUserD = new User({username: "teacher" + req.body.teacherNum + "d", password: req.body.teacherNum, url: "https://mvhs.vistausd.org/", title: "title", ident: "0005"});
+                newUserD.save(next);
+              }
+              //if(identi.substring(3) === "A")
+              //  identi = "0002";
+              //else if(identi.substring(3) === "B")
+              //  identi = "0003";
+              //else if(identi.substring(3) === "C")
+              //  identi = "0004";
+              //else if(identi.substring(3) === "D")
+              //  identi = "0005";
+              //else
+              //  identi = "0000"
             }
           }
-          var newUser = new User({
-              username: "teacher" + req.body.teacherNum,
-              password: req.body.teacherNum,
-              url: "https://mvhs.vistausd.org/",
-              title: "title",
-              ident: identi});
-          newUser.save(next);
+          //var newUser = new User({
+          //    username: "teacher" + req.body.teacherNum,
+          //    password: req.body.teacherNum,
+          //    url: "https://mvhs.vistausd.org/",
+          //    title: "title",
+          //    ident: identi});
+          //newUser.save(next);
         }
         res.json({error:error});
       }
