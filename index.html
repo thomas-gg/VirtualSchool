@@ -3,23 +3,63 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | MVHS_Map</title>
+    <title>MVHS Virtual Tour</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="TemplateData/UnityProgress.js"></script>  
+    <link href = "views/mainstyle.css" rel = "stylesheet" type = "text/css">
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
     <script>
       var gameInstance = UnityLoader.instantiate("gameContainer", "Build/VirtualSchool.json", {onProgress: UnityProgress});
     </script>
   </head>
   <body>
-    <div class="webgl-content">
-      <div id="gameContainer" style="width: 960px; height: 600px"></div>
-      <div class="footer">
-        <div class="webgl-logo"></div>
-        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">MVHS_Map</div>
+    <h3 id = "warning">VirtualTour may take time to Load.
+      Left click in 3D window for better maneuverability.</h3>
+      <div class="webgl-content center">
+        <p class = "welcome-text">Welcome To Mission Vista High</p>
+        <hr>
+        <div class = "game-container">
+          <div id="gameContainer" style="width: 900px; height: 600px"></div>
+        <div class = "info-content" id = "content">
+          <p>P - Display pictures</p>
+          <p>V - Display Videos</p>
+          <p>M - Display webpage</p>
+          <p>Backspace - Removes Current Content</p>
+          <p>Left/Right Arrow - Step through pictures and videos</p>
+          <p>Z - Pause Video</p>
+          <p>X - Skip Ahead in Video</p>
+          <p>C - Skip Back in Video</p>
+        </div>
+        <div class = "info-content" id = "contentLeft">
+          <p>W - Move Forward</p>
+          <p>A - Move Left</p>
+          <p>S - Move Backwards</p>
+          <p>D - Move Right</p>
+          <p>Shift key while moving - Move faster</p>
+          <p>Mouse - Rotate View</p>
+          <p>Space - Jump</p>
+          <p>Esc - Show Cursor</p>
+          <p>Left Click on doors to view media content<p>
+          <p>Keys 0-9 - Will teleport you to a corresponding wing<p>
       </div>
-    </div>
-  </body>
+        <hr>
+        </div>
+        <!--<a href="http://173.255.210.209:3006/login" class="login">Login</a>-->
+        <!--<a href="http://localhost:3006/login">Upload File</a>-->
+      </div>
+      <div class = "footer">
+        <p class = "creators">Created by Thomas Garry, Austin LaChance, and Danny Dyerly</p>
+        <p class = "class">Class of 2019</p>
+      </div>
+      <script>
+       $(document).ready(function() { 
+          $("#warning").hide(15000)
+        });
+      </script>
+   </body>
+
 </html>
