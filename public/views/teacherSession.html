@@ -44,7 +44,7 @@
           <label for="caption" class="caption"> Write a caption: </label>
           <br>
           <textarea id = "caption" rows="7" cols="82" maxlength = "100"></textarea>
-          <p id = "count">Characters remaining: </p>
+          <p id = "count">Characters remaining: 100</p>
           <input type="submit" class = "submit-button" id = "submit">
         </div>
         </form>
@@ -107,7 +107,7 @@
      });
 
     $("#caption").keyup(function(){
-      $("#count").text("Characters remaining: " + (500 - $(this).val().length));
+      $("#count").text("Characters remaining: " + (100 - $(this).val().length));
     });
   </script>
 </html>
