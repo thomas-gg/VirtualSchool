@@ -138,6 +138,10 @@ body {
   font-size: 20px;
 }
 
+.count {
+  text-align: left;
+}
+
 .urlUpload {
   position: relative;
   top: 15px;
