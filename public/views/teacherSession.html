@@ -38,12 +38,13 @@
           <input type="file" id="real-file" hidden="hidden" name = "filetoupload"/>
           <button type="button" id="custom-button">CHOOSE A FILE</button>
           <span id="custom-text">No file chosen, yet.</span>
-          <p class = "uploadSupport-hint">Supported Formats include: JPEG, jpg, JPG, png, PNG, gif, GIF, mov, MOV, MP4, mp4</p>
+          <p class = "uploadSupport-hint">Supported Formats include: jpeg, jpg, JPG, png, PNG, gif, GIF, mov, MOV, MP4, mp4</p>
         </div><br>
         <div class="totalCaption">
           <label for="caption" class="caption"> Write a caption: </label>
           <br>
-          <textarea id = "caption" rows="7" cols="82"></textarea>
+          <textarea id = "caption" rows="7" cols="82" maxlength = "100"></textarea>
+          <p id = "count"></p>
           <input type="submit" class = "submit-button" id = "submit">
         </div>
         </form>
@@ -51,7 +52,7 @@
     <div class="flex-item">
       <p class = "uploadTitle">Upload a Title</p>
       <div class="uploadTitleContent">
-        <p class = "uploadTitleCntxt">Upload the title(s) to appear above your door</p>
+        <p class = "uploadTitleCntxt">Upload the title to appear above your door</p>
         <p class = "uploadTitleHint">(If you are uploading multiple titles, be sure to put a comma in between)<p><br>
           <input type = "text" id = "title">
           <input type = "button" class = "upload-url" id = "uploadTitle" value = "Upload"><br>
@@ -104,5 +105,9 @@
 		       $(this).parents().next('.hide').toggle();
 	     });
      });
+
+    $("#caption").keyup(function(){
+      $("#count").text("Characters remaining: " + (500 - $(this).val().length));
+    });
   </script>
 </html>
