@@ -15,7 +15,7 @@
     "express": "^4.16.4",
     "express-session": "^1.17.0",
     "formidable": "^1.2.2",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "mongoose": "^5.9.7",
     "mv": "^2.1.1",
     "passport": "^0.4.1",
